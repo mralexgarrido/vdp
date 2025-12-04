@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vaquero Discounts Finder | UTRGV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --utrgv-orange: #f05023;
+      --utrgv-gray: #646469;
+      --utrgv-bg: #f5f5f7;
+      --card-bg: #ffffff;
+      --border-subtle: #e0e0e5;
+      --text-main: #1f1f23;
+      --text-muted: #555964;
+      --radius-lg: 16px;
+      --radius-sm: 999px;
+      --shadow-soft: 0 12px 30px rgba(0,0,0,0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background: var(--utrgv-bg);
+    }
+
+    .site-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .site-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--utrgv-gray);
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      background: var(--utrgv-orange);
+      color: #ffffff;
+    }
+
+    .site-header-right {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .hero {
+      background: radial-gradient(circle at 0% 0%, #ffb896 0, #f05023 20%, #0c2340 95%);
+      color: #ffffff;
+      padding: 3.5rem 1.5rem 2.75rem;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-kicker {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin: 0 0 0.75rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      line-height: 1.5;
+      max-width: 34rem;
+      opacity: 0.92;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0,0,0,0.18);
+      border-radius: 999px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .hero-highlight-pill {
+      background: rgba(255,255,255,0.18);
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-search-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 1.35rem 1.3rem 1.3rem;
+      box-shadow: var(--shadow-soft);
+      color: var(--text-main);
+    }
+
+    .hero-search-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--utrgv-gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .search-input {
+      flex: 1;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      padding: 0.7rem 0.9rem;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--utrgv-orange);
+      box-shadow: 0 0 0 2px rgba(240,80,35,0.18);
+    }
+
+    .btn-secondary {
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(100,100,105,0.45);
+      padding: 0.6rem 0.9rem;
+      background: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-main);
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      background: #f3f3f7;
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.97);
+    }
+
+    .hero-search-footnote {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .filters-shell {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .filters-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      align-items: flex-end;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-width: 180px;
+    }
+
+    .filter-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--utrgv-gray);
+    }
+
+    .select-input {
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      padding: 0.55rem 0.7rem;
+      font-size: 0.85rem;
+      background: #ffffff;
+      outline: none;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .chip {
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.05s ease;
+    }
+
+    .chip span.dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: var(--border-subtle);
+    }
+
+    .chip.active {
+      background: rgba(240,80,35,0.08);
+      border-color: var(--utrgv-orange);
+      color: var(--utrgv-orange);
+    }
+
+    .chip.active span.dot {
+      background: var(--utrgv-orange);
+    }
+
+    .results-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.8rem 1.5rem 3rem;
+    }
+
+    .results-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+
+    .results-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .results-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .disclaimer {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-left: 3px solid var(--utrgv-orange);
+      padding-left: 0.7rem;
+      margin-bottom: 1.2rem;
+      max-width: 54rem;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .vendor-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.03);
+      padding: 1.1rem 1.15rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .vendor-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .vendor-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .category-pill {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-radius: 999px;
+      padding: 0.2rem 0.6rem;
+      background: rgba(240,80,35,0.06);
+      color: var(--utrgv-orange);
+      border: 1px solid rgba(240,80,35,0.16);
+      white-space: nowrap;
+    }
+
+    .discount-amount {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--utrgv-orange);
+    }
+
+    .who-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.15rem;
+    }
+
+    .who-chip {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 0.12rem 0.55rem;
+      border: 1px solid rgba(100,100,105,0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .who-chip.active {
+      background: rgba(0,132,61,0.06);
+      border-color: rgba(0,132,61,0.6);
+      color: #006230;
+    }
+
+    .who-chip.inactive {
+      opacity: 0.45;
+    }
+
+    .vendor-description {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    .vendor-meta {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: grid;
+      gap: 0.1rem;
+    }
+
+    .vendor-meta strong {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .vendor-tags {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .vendor-tag-pill {
+      border-radius: 999px;
+      background: #f1f1f6;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .vendor-footer {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .vendor-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .vendor-link {
+      font-weight: 600;
+      color: var(--utrgv-orange);
+      text-decoration: none;
+    }
+
+    .vendor-link:hover {
+      text-decoration: underline;
+    }
+
+    .empty-state {
+      text-align: left;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      padding: 1.25rem 1rem;
+      border-radius: 14px;
+      border: 1px dashed var(--border-subtle);
+      background: rgba(255,255,255,0.8);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 1.3rem 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      background: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="site-header-left">
+        <span class="brand-mark">UTRGV</span>
+        <span>Vaquero Discounts</span>
+      </div>
+      <div class="site-header-right">
+        #1 University in Texas. Proudly supporting local businesses.
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-kicker">Benefits . Vaquero Discount Program</div>
+            <h1 class="hero-title">Find your next Vaquero Discount</h1>
+            <p class="hero-subtitle">
+              Search approved vendors offering discounts to UTRGV students. faculty. and staff.
+              Filter by category. location. and eligibility to make the most of your Vaquero perks.
+            </p>
+            <div class="hero-highlight">
+              <span class="hero-highlight-pill">Students . Faculty . Staff</span>
+              <span>Browse dining. health and beauty. automotive. travel. services and more across the RGV.</span>
+            </div>
+          </div>
+
+          <div class="hero-search-card">
+            <div class="hero-search-label">Search discounts</div>
+            <div class="search-row">
+              <input
+                id="searchInput"
+                class="search-input"
+                type="search"
+                placeholder="Search by business name. city. or keyword (for example. Brownsville. pizza. gym)"
+                autocomplete="off"
+              />
+              <button id="clearFiltersBtn" class="btn-secondary" type="button">
+                Clear filters
+              </button>
+            </div>
+            <div class="hero-search-footnote">
+              Tip. try “McAllen”. “Brownsville”. “donuts”. or “car wash”.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="filters-shell">
+        <div class="filters-inner">
+          <div class="filter-group">
+            <span class="filter-label">Category</span>
+            <div id="categoryChips" class="chip-row">
+              <button class="chip active" data-category="__all">
+                <span class="dot"></span>
+                <span>All categories</span>
+              </button>
+              <button class="chip" data-category="Automotive">
+                <span class="dot"></span>
+                <span>Automotive</span>
+              </button>
+              <button class="chip" data-category="Services">
+                <span class="dot"></span>
+                <span>Services</span>
+              </button>
+              <button class="chip" data-category="Electronics">
+                <span class="dot"></span>
+                <span>Electronics</span>
+              </button>
+              <button class="chip" data-category="Fashion">
+                <span class="dot"></span>
+                <span>Fashion</span>
+              </button>
+              <button class="chip" data-category="Health &amp; Beauty">
+                <span class="dot"></span>
+                <span>Health and Beauty</span>
+              </button>
+              <button class="chip" data-category="Dining">
+                <span class="dot"></span>
+                <span>Dining</span>
+              </button>
+              <button class="chip" data-category="Entertainment">
+                <span class="dot"></span>
+                <span>Entertainment</span>
+              </button>
+              <button class="chip" data-category="Travel">
+                <span class="dot"></span>
+                <span>Travel</span>
+              </button>
+              <button class="chip" data-category="Other">
+                <span class="dot"></span>
+                <span>Other</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-label">Who can redeem</span>
+            <div id="whoFilters" class="chip-row">
+              <button class="chip" data-who="students">
+                <span class="dot"></span>
+                Students
+              </button>
+              <button class="chip" data-who="faculty">
+                <span class="dot"></span>
+                Faculty
+              </button>
+              <button class="chip" data-who="staff">
+                <span class="dot"></span>
+                Staff
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label for="cityFilter" class="filter-label">Location</label>
+            <select id="cityFilter" class="select-input">
+              <option value="__all">All locations</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="redemptionFilter" class="filter-label">Redemption type</label>
+            <select id="redemptionFilter" class="select-input">
+              <option value="any">Any</option>
+              <option value="in_person">In person</option>
+              <option value="online">Online</option>
+              <option value="phone">Phone</option>
+              <option value="mixed">Multiple</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="results-shell">
+        <div class="results-header">
+          <div class="results-title" id="resultsCount">
+            Loading Vaquero Discounts...
+          </div>
+          <div class="results-meta">
+            Data source. Vaquero Discount Program . Office of Human Resources.
+          </div>
+        </div>
+
+        <div class="disclaimer">
+          UTRGV has approved all the listed vendors to participate in the Vaquero Discount Program.
+          It is the vendor's responsibility to maintain current information. Any arrangement or
+          agreement for services or products through the discount program is the sole responsibility
+          of the individual and the vendor. Please refer to the official Discount Program Policy
+          for full details.
+        </div>
+
+        <div id="vendorList" class="cards-grid"></div>
+
+        <div id="emptyState" class="empty-state" style="display:none;">
+          No vendors match your current filters.
+          Try clearing filters or using a broader search term like “food”. “hotel”. or “gym”.
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      The University of Texas Rio Grande Valley . Vaquero Discount Program . Office of Human Resources
+    </footer>
+  </div>
+
+  <script>
+    const STATE = {
+      allVendors: [],
+      filteredVendors: [],
+      filters: {
+        search: "",
+        categories: new Set(),
+        who: new Set(),
+        city: "__all",
+        redemption: "any"
+      }
+    };
+
+    // Update this to where you host listings.json
+    const JSON_URL = "listings.json";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchInput = document.getElementById("searchInput");
+      const clearFiltersBtn = document.getElementById("clearFiltersBtn");
+      const resultsCountEl = document.getElementById("resultsCount");
+      const vendorListEl = document.getElementById("vendorList");
+      const emptyStateEl = document.getElementById("emptyState");
+      const cityFilterEl = document.getElementById("cityFilter");
+      const redemptionFilterEl = document.getElementById("redemptionFilter");
+      const categoryChipsEl = document.getElementById("categoryChips");
+      const whoFiltersEl = document.getElementById("whoFilters");
+
+      function parseWhoString(whoStr) {
+        const who = {
+          students: false,
+          faculty: false,
+          staff: false
+        };
+        if (!whoStr) return who;
+        const text = String(whoStr).toLowerCase();
+        if (text.includes("student")) who.students = true;
+        if (text.includes("faculty")) who.faculty = true;
+        if (text.includes("staff")) who.staff = true;
+        if (text.includes("employee") && !who.faculty && !who.staff) {
+          who.faculty = true;
+          who.staff = true;
+        }
+        return who;
+      }
+
+      function deriveRedemptionType(howStr) {
+        const text = (howStr || "").toLowerCase();
+        if (text.includes("online")) return "online";
+        if (text.includes("promo") || text.includes("code")) return "online";
+        if (text.includes("phone")) return "phone";
+        if (text.includes("in person")) return "in_person";
+        if (text.includes("id") || text.includes("bring utrgv")) return "in_person";
+        return "in_person";
+      }
+
+      function extractCityFromAddress(address) {
+        if (!address) return "";
+        const text = address.toLowerCase();
+
+        const knownCities = [
+          "mcallen",
+          "mcallen, tx",
+          "mcallen tx",
+          "edinburg",
+          "brownsville",
+          "harlingen",
+          "weslaco",
+          "pharr",
+          "mission",
+          "los fresnos",
+          "alamo",
+          "summit",
+          "valleywide",
+          "online"
+        ];
+
+        for (const city of knownCities) {
+          if (text.includes(city)) {
+            return city
+              .replace(/, tx/g, "")
+              .replace(/ tx/g, "")
+              .split(" ")
+              .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+              .join(" ");
+          }
+        }
+
+        const txIndex = text.indexOf("tx");
+        if (txIndex > -1) {
+          const beforeTx = address.slice(0, txIndex);
+          const parts = beforeTx.split(",");
+          const last = parts[parts.length - 1].trim();
+          if (last && !/\d/.test(last)) return last;
+        }
+
+        return "";
+      }
+
+      function mapRowToVendor(row) {
+        const whoParsed = parseWhoString(row.who);
+        const redemptionType = deriveRedemptionType(row.how);
+        const city = extractCityFromAddress(row.address);
+
+        return {
+          id: row.id,
+          name: (row.vendor || "").trim(),
+          category: (row.category || "Other").trim(),
+          discountAmount: (row.discount || "").trim(),
+          who: whoParsed,
+          howToRedeem: (row.how || "").trim(),
+          redemptionType,
+          address: (row.address || "").trim(),
+          city,
+          phone: (row.phone || "").trim(),
+          description: (row.about || "").trim(),
+          tags: []
+        };
+      }
+
+      function updateCityFilterOptions() {
+        const cities = Array.from(
+          new Set(
+            STATE.allVendors
+              .map(v => v.city)
+              .filter(Boolean)
+          )
+        ).sort((a, b) => a.localeCompare(b));
+
+        while (cityFilterEl.options.length > 1) {
+          cityFilterEl.remove(1);
+        }
+        cities.forEach(city => {
+          const opt = document.createElement("option");
+          opt.value = city;
+          opt.textContent = city;
+          cityFilterEl.appendChild(opt);
+        });
+      }
+
+      function applyFilters() {
+        const search = STATE.filters.search.toLowerCase();
+        const cats = STATE.filters.categories;
+        const who = STATE.filters.who;
+        const city = STATE.filters.city;
+        const redemption = STATE.filters.redemption;
+
+        let filtered = STATE.allVendors.filter(vendor => {
+          if (search) {
+            const haystack = (
+              vendor.name +
+              " " +
+              vendor.description +
+              " " +
+              vendor.address +
+              " " +
+              vendor.city +
+              " " +
+              vendor.category
+            ).toLowerCase();
+            if (!haystack.includes(search)) return false;
+          }
+
+          if (cats.size > 0 && !cats.has(vendor.category)) {
+            return false;
+          }
+
+          if (who.size > 0) {
+            let ok = false;
+            if (who.has("students") && vendor.who.students) ok = true;
+            if (who.has("faculty") && vendor.who.faculty) ok = true;
+            if (who.has("staff") && vendor.who.staff) ok = true;
+            if (!ok) return false;
+          }
+
+          if (city !== "__all" && vendor.city && vendor.city !== city) {
+            return false;
+          }
+
+          if (redemption !== "any" && vendor.redemptionType !== redemption) {
+            return false;
+          }
+
+          return true;
+        });
+
+        filtered.sort((a, b) => {
+          const cityCmp = a.city.localeCompare(b.city);
+          if (cityCmp !== 0) return cityCmp;
+          return a.name.localeCompare(b.name);
+        });
+
+        STATE.filteredVendors = filtered;
+        render();
+      }
+
+      function render() {
+        const total = STATE.allVendors.length;
+        const count = STATE.filteredVendors.length;
+
+        if (!total) {
+          resultsCountEl.textContent = "No discounts loaded yet.";
+        } else {
+          resultsCountEl.textContent = `Showing ${count} of ${total} Vaquero Discounts`;
+        }
+
+        vendorListEl.innerHTML = "";
+        if (count === 0 && total > 0) {
+          emptyStateEl.style.display = "block";
+          return;
+        }
+        emptyStateEl.style.display = "none";
+
+        const fragment = document.createDocumentFragment();
+
+        const whoChipClass = (active) =>
+          "who-chip " + (active ? "active" : "inactive");
+
+        STATE.filteredVendors.forEach(v => {
+          const card = document.createElement("article");
+          card.className = "vendor-card";
+
+          const whoRowHtml = `
+            <div class="who-row">
+              <div class="${whoChipClass(v.who.students)}">
+                <span>🎓</span><span>Students</span>
+              </div>
+              <div class="${whoChipClass(v.who.faculty)}">
+                <span>🧑‍🏫</span><span>Faculty</span>
+              </div>
+              <div class="${whoChipClass(v.who.staff)}">
+                <span>🧑‍💼</span><span>Staff</span>
+              </div>
+            </div>
+          `;
+
+          const tagsHtml =
+            v.tags && v.tags.length
+              ? `<div class="vendor-tags">
+                  ${v.tags
+                    .map(t => `<span class="vendor-tag-pill">${t}</span>`)
+                    .join("")}
+                 </div>`
+              : "";
+
+          const redemptionLabelMap = {
+            in_person: "In person",
+            online: "Online",
+            phone: "By phone",
+            mixed: "Multiple"
+          };
+          const redemptionLabel =
+            redemptionLabelMap[v.redemptionType] || "Details in description";
+
+          card.innerHTML = `
+            <div class="vendor-header">
+              <div>
+                <div class="vendor-name">${v.name || "Unnamed vendor"}</div>
+                ${
+                  v.discountAmount
+                    ? `<div class="discount-amount">${v.discountAmount}</div>`
+                    : ""
+                }
+              </div>
+              <div class="category-pill">
+                ${v.category}
+              </div>
+            </div>
+            ${whoRowHtml}
+            ${
+              v.description
+                ? `<div class="vendor-description">${v.description}</div>`
+                : ""
+            }
+            <div class="vendor-meta">
+              ${
+                v.howToRedeem
+                  ? `<div><strong>How to redeem.</strong> ${v.howToRedeem}</div>`
+                  : `<div><strong>Redemption.</strong> ${redemptionLabel}</div>`
+              }
+              ${
+                v.address
+                  ? `<div><strong>Address.</strong> ${v.address}</div>`
+                  : ""
+              }
+              ${
+                v.phone
+                  ? `<div><strong>Phone.</strong> ${v.phone}</div>`
+                  : ""
+              }
+            </div>
+            ${tagsHtml}
+            <div class="vendor-footer">
+              <div class="vendor-location">
+                📍
+                <span>${v.city || "See address"}</span>
+              </div>
+              <div></div>
+            </div>
+          `;
+
+          fragment.appendChild(card);
+        });
+
+        vendorListEl.appendChild(fragment);
+      }
+
+      searchInput.addEventListener("input", () => {
+        STATE.filters.search = searchInput.value.trim();
+        applyFilters();
+      });
+
+      clearFiltersBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        STATE.filters.search = "";
+        STATE.filters.categories.clear();
+        STATE.filters.who.clear();
+        STATE.filters.city = "__all";
+        STATE.filters.redemption = "any";
+        cityFilterEl.value = "__all";
+        redemptionFilterEl.value = "any";
+
+        categoryChipsEl.querySelectorAll(".chip").forEach(chip => {
+          chip.classList.toggle(
+            "active",
+            chip.dataset.category === "__all"
+          );
+        });
+        whoFiltersEl.querySelectorAll(".chip").forEach(chip => {
+          chip.classList.remove("active");
+        });
+
+        applyFilters();
+      });
+
+      categoryChipsEl.addEventListener("click", (event) => {
+        const chip = event.target.closest(".chip");
+        if (!chip) return;
+        const category = chip.dataset.category;
+        if (!category) return;
+
+        if (category === "__all") {
+          STATE.filters.categories.clear();
+          categoryChipsEl.querySelectorAll(".chip").forEach(c => {
+            c.classList.toggle(
+              "active",
+              c.dataset.category === "__all"
+            );
+          });
+        } else {
+          const currentlyActive = chip.classList.contains("active");
+          if (currentlyActive) {
+            chip.classList.remove("active");
+            STATE.filters.categories.delete(category);
+          } else {
+            chip.classList.add("active");
+            STATE.filters.categories.add(category);
+          }
+
+          const anySpecificActive = Array.from(
+            categoryChipsEl.querySelectorAll(".chip")
+          ).some(c => c.dataset.category !== "__all" && c.classList.contains("active"));
+
+          categoryChipsEl.querySelectorAll(".chip").forEach(c => {
+            if (c.dataset.category === "__all") {
+              c.classList.toggle("active", !anySpecificActive);
+            }
+          });
+
+          if (!anySpecificActive) {
+            STATE.filters.categories.clear();
+          }
+        }
+
+        applyFilters();
+      });
+
+      whoFiltersEl.addEventListener("click", (event) => {
+        const chip = event.target.closest(".chip");
+        if (!chip) return;
+        const who = chip.dataset.who;
+        if (!who) return;
+
+        const active = chip.classList.contains("active");
+        if (active) {
+          chip.classList.remove("active");
+          STATE.filters.who.delete(who);
+        } else {
+          chip.classList.add("active");
+          STATE.filters.who.add(who);
+        }
+        applyFilters();
+      });
+
+      cityFilterEl.addEventListener("change", () => {
+        STATE.filters.city = cityFilterEl.value;
+        applyFilters();
+      });
+
+      redemptionFilterEl.addEventListener("change", () => {
+        STATE.filters.redemption = redemptionFilterEl.value;
+        applyFilters();
+      });
+
+      fetch(JSON_URL)
+        .then(response => response.json())
+        .then(data => {
+          STATE.allVendors = data.map(mapRowToVendor).filter(v => v.name);
+          updateCityFilterOptions();
+          applyFilters();
+        })
+        .catch(err => {
+          console.error("Error loading JSON", err);
+          resultsCountEl.textContent = "Unable to load Vaquero Discounts data.";
+        });
+    });
+  </script>
+</body>
+</html>
