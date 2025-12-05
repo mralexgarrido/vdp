@@ -253,6 +253,44 @@
       outline: none;
     }
 
+    .filters-summary {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem 0.5rem;
+    }
+
+    .active-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .filter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border-radius: var(--radius-sm);
+      padding: 0.3rem 0.6rem;
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      color: var(--text-main);
+    }
+
+    .filter-badge .dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: var(--utrgv-orange);
+    }
+
+    .filter-badge.muted {
+      color: var(--text-muted);
+      background: #f6f6f8;
+    }
+
     .chip-row {
       display: flex;
       flex-wrap: wrap;
@@ -526,8 +564,8 @@
               Tip. try “McAllen”. “Brownsville”. “donuts”. or “car wash”.
             </div>
           </div>
-        </div>
-      </section>
+          </div>
+        </section>
 
       <section class="filters-shell">
         <div class="filters-inner">
@@ -612,18 +650,33 @@
               <option value="mixed">Multiple</option>
             </select>
           </div>
-        </div>
-      </section>
 
-      <section class="results-shell">
-        <div class="results-header">
-          <div class="results-title" id="resultsCount">
-            Loading Vaquero Discounts...
+          <div class="filter-group">
+            <label for="sortBy" class="filter-label">Sort results</label>
+            <select id="sortBy" class="select-input">
+              <option value="city">City (A→Z)</option>
+              <option value="name">Business name (A→Z)</option>
+              <option value="category">Category</option>
+            </select>
           </div>
-          <div class="results-meta">
-            Data source. Vaquero Discount Program . Office of Human Resources.
           </div>
-        </div>
+        </section>
+
+        <section class="results-shell">
+          <div class="results-header">
+            <div class="results-title" id="resultsCount">
+              Loading Vaquero Discounts...
+            </div>
+            <div class="results-meta">
+              Data source. Vaquero Discount Program . Office of Human Resources.
+            </div>
+          </div>
+
+          <div class="filters-summary">
+            <div class="active-filters" id="filtersSummary">
+              <span class="filter-badge muted">No filters applied. Showing all discounts.</span>
+            </div>
+          </div>
 
         <div class="disclaimer">
           UTRGV has approved all the listed vendors to participate in the Vaquero Discount Program.
@@ -651,14 +704,15 @@
     const STATE = {
       allVendors: [],
       filteredVendors: [],
-      filters: {
-        search: "",
-        categories: new Set(),
-        who: new Set(),
-        city: "__all",
-        redemption: "any"
-      }
-    };
+        filters: {
+          search: "",
+          categories: new Set(),
+          who: new Set(),
+          city: "__all",
+          redemption: "any",
+          sortBy: "city"
+        }
+      };
 
     // Update this to where you host listings.json
     const JSON_URL = "listings.json";
@@ -666,13 +720,15 @@
     document.addEventListener("DOMContentLoaded", () => {
       const searchInput = document.getElementById("searchInput");
       const clearFiltersBtn = document.getElementById("clearFiltersBtn");
-      const resultsCountEl = document.getElementById("resultsCount");
-      const vendorListEl = document.getElementById("vendorList");
-      const emptyStateEl = document.getElementById("emptyState");
-      const cityFilterEl = document.getElementById("cityFilter");
-      const redemptionFilterEl = document.getElementById("redemptionFilter");
-      const categoryChipsEl = document.getElementById("categoryChips");
-      const whoFiltersEl = document.getElementById("whoFilters");
+        const resultsCountEl = document.getElementById("resultsCount");
+        const vendorListEl = document.getElementById("vendorList");
+        const emptyStateEl = document.getElementById("emptyState");
+        const cityFilterEl = document.getElementById("cityFilter");
+        const redemptionFilterEl = document.getElementById("redemptionFilter");
+        const sortBySelect = document.getElementById("sortBy");
+        const categoryChipsEl = document.getElementById("categoryChips");
+        const whoFiltersEl = document.getElementById("whoFilters");
+        const filtersSummaryEl = document.getElementById("filtersSummary");
 
       function parseWhoString(whoStr) {
         const who = {
@@ -786,12 +842,32 @@
         });
       }
 
+      function sortVendors(list, sortBy) {
+        const comparators = {
+          city: (a, b) => {
+            const cityCmp = (a.city || "").localeCompare(b.city || "");
+            if (cityCmp !== 0) return cityCmp;
+            return a.name.localeCompare(b.name);
+          },
+          name: (a, b) => a.name.localeCompare(b.name),
+          category: (a, b) => {
+            const catCmp = a.category.localeCompare(b.category);
+            if (catCmp !== 0) return catCmp;
+            return a.name.localeCompare(b.name);
+          }
+        };
+
+        const comparator = comparators[sortBy] || comparators.city;
+        return list.slice().sort(comparator);
+      }
+
       function applyFilters() {
         const search = STATE.filters.search.toLowerCase();
         const cats = STATE.filters.categories;
         const who = STATE.filters.who;
         const city = STATE.filters.city;
         const redemption = STATE.filters.redemption;
+        const sortBy = STATE.filters.sortBy;
 
         let filtered = STATE.allVendors.filter(vendor => {
           if (search) {
@@ -832,14 +908,68 @@
           return true;
         });
 
-        filtered.sort((a, b) => {
-          const cityCmp = a.city.localeCompare(b.city);
-          if (cityCmp !== 0) return cityCmp;
-          return a.name.localeCompare(b.name);
-        });
+        filtered = sortVendors(filtered, sortBy);
 
         STATE.filteredVendors = filtered;
         render();
+      }
+
+      function renderFiltersSummary() {
+        const summaryParts = [];
+
+        if (STATE.filters.search) {
+          summaryParts.push(`Search: “${STATE.filters.search}”`);
+        }
+
+        if (STATE.filters.categories.size > 0) {
+          summaryParts.push(
+            `Categories: ${Array.from(STATE.filters.categories).join(", ")}`
+          );
+        }
+
+        if (STATE.filters.who.size > 0) {
+          const whoLabels = [];
+          if (STATE.filters.who.has("students")) whoLabels.push("Students");
+          if (STATE.filters.who.has("faculty")) whoLabels.push("Faculty");
+          if (STATE.filters.who.has("staff")) whoLabels.push("Staff");
+          summaryParts.push(`Eligible: ${whoLabels.join(", ")}`);
+        }
+
+        if (STATE.filters.city !== "__all") {
+          summaryParts.push(`City: ${STATE.filters.city}`);
+        }
+
+        if (STATE.filters.redemption !== "any") {
+          const redemptionLabelMap = {
+            in_person: "In person",
+            online: "Online",
+            phone: "By phone",
+            mixed: "Multiple"
+          };
+          summaryParts.push(
+            `Redemption: ${redemptionLabelMap[STATE.filters.redemption] || "Custom"}`
+          );
+        }
+
+        if (STATE.filters.sortBy !== "city") {
+          const sortLabelMap = {
+            city: "City (A→Z)",
+            name: "Business name (A→Z)",
+            category: "Category"
+          };
+          summaryParts.push(`Sort: ${sortLabelMap[STATE.filters.sortBy] || "City"}`);
+        }
+
+        if (!summaryParts.length) {
+          filtersSummaryEl.innerHTML = "";
+          filtersSummaryEl.innerHTML =
+            '<span class="filter-badge muted">No filters applied. Showing all discounts.</span>';
+          return;
+        }
+
+        filtersSummaryEl.innerHTML = summaryParts
+          .map(text => `<span class=\"filter-badge\"><span class=\"dot\"></span>${text}</span>`)
+          .join("");
       }
 
       function render() {
@@ -851,6 +981,8 @@
         } else {
           resultsCountEl.textContent = `Showing ${count} of ${total} Vaquero Discounts`;
         }
+
+        renderFiltersSummary();
 
         vendorListEl.innerHTML = "";
         if (count === 0 && total > 0) {
@@ -965,8 +1097,10 @@
         STATE.filters.who.clear();
         STATE.filters.city = "__all";
         STATE.filters.redemption = "any";
+        STATE.filters.sortBy = "city";
         cityFilterEl.value = "__all";
         redemptionFilterEl.value = "any";
+        sortBySelect.value = "city";
 
         categoryChipsEl.querySelectorAll(".chip").forEach(chip => {
           chip.classList.toggle(
@@ -1047,6 +1181,11 @@
 
       redemptionFilterEl.addEventListener("change", () => {
         STATE.filters.redemption = redemptionFilterEl.value;
+        applyFilters();
+      });
+
+      sortBySelect.addEventListener("change", () => {
+        STATE.filters.sortBy = sortBySelect.value;
         applyFilters();
       });
 
