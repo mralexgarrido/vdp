@@ -1,0 +1,1715 @@
+[
+  {
+    "id": "101",
+    "businessName": "Advance Auto Parts",
+    "category": "Auto & Tech",
+    "discountAmount": "10% to RGV stores only",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Auto Parts. Address: Valleywide",
+    "address": "Valleywide",
+    "phone": "",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "auto"
+    ]
+  },
+  {
+    "id": "102",
+    "businessName": "Chavo Ruco Car Wash",
+    "category": "Auto & Tech",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Chavo Ruco Car Wash offers full interior details, ceramic coating, headlights restoration, car wash services and paint correction.",
+    "address": "1708 N Cage Blvd, Pharr, TX 78577",
+    "phone": "(956) 776-1077",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Pharr",
+    "isFeatured": true,
+    "tags": [
+      "auto"
+    ]
+  },
+  {
+    "id": "103",
+    "businessName": "Oil Can Harry's",
+    "category": "Auto & Tech",
+    "discountAmount": "10% off oil changes",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "We operate 4 oil-change centers in Edinburg, Pharr, Weslaco and Harlingen. We provide oil changes, vehicle inspections, and other preventative maintenance.",
+    "address": "Multiple Locations (Edinburg, Harlingen, Pharr, Weslaco)",
+    "phone": "(956) 318-1754",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Harlingen",
+    "isFeatured": false,
+    "tags": [
+      "auto"
+    ]
+  },
+  {
+    "id": "104",
+    "businessName": "Medina Tire and Mechanic Shop",
+    "category": "Auto & Tech",
+    "discountAmount": "1 Free tire patch on any size passenger car tire. One discount/coupon per vehicle.",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Medina Tire and Mechanic Shop is located in Alamo, Tx. We have been serving the RGV community for 5 years. We offer tire and automotive services including; new and used tires, tire repairs.",
+    "address": "810 N Alamo Rd, Alamo, TX 78516",
+    "phone": "(956) 219-5985",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Alamo",
+    "isFeatured": false,
+    "tags": [
+      "auto"
+    ]
+  },
+  {
+    "id": "105",
+    "businessName": "Superior Oil Express",
+    "category": "Auto & Tech",
+    "discountAmount": "10% off parts & service (excluding tires). Max discount $150.",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Providing a better and more trusted service in the automotive repair and oil lube business.",
+    "address": "710 N Shary Rd, Mission, TX 78572",
+    "phone": "(956) 391-3990",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Mission",
+    "isFeatured": false,
+    "tags": [
+      "auto"
+    ]
+  },
+  {
+    "id": "201",
+    "businessName": "Betancourt Landscaping Service",
+    "category": "Services & Travel",
+    "discountAmount": "10% on Labor Cost",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "We are a full service landscaping company that will improve and maintain any residential or commercial property. We offer lawn maintenance and landscape design and install.",
+    "address": "2302 Continental St, Edinburg",
+    "phone": "(956) 325-3245",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "202",
+    "businessName": "Bold Insurance",
+    "category": "Services & Travel",
+    "discountAmount": "Free consult",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Life and Health Insurance Retirement Planning Offices in McAllen, Pharr and San Juan.",
+    "address": "3309 N Ware Rd, McAllen, TX 78504",
+    "phone": "956-572-0177",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "203",
+    "businessName": "Binary Technologies LLC",
+    "category": "Auto & Tech",
+    "discountAmount": "30% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Industrial electronics, aluminum frame profiles, and engineering services.",
+    "address": "6601 S. 27th St, McAllen, TX",
+    "phone": "(956) 641-3876",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen",
+    "isFeatured": false,
+    "tags": [
+      "auto"
+    ]
+  },
+  {
+    "id": "204",
+    "businessName": "City Taxi Brownsville",
+    "category": "Services & Travel",
+    "discountAmount": "20% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Taxi service in Brownsville Texas 24 hour service.",
+    "address": "1135 E Adams, Brownsville, TX",
+    "phone": "(956) 544-3030",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "205",
+    "businessName": "CWM Construction",
+    "category": "Services & Travel",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Residential Remodeling, kitchen and bath.",
+    "address": "Edinburg, TX",
+    "phone": "508-301-0746",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near TX",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "206",
+    "businessName": "Computer Diagnostix",
+    "category": "Auto & Tech",
+    "discountAmount": "20% on purchases",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Computer Sales and Services.",
+    "address": "60 Draper Dr, Brownsville, TX 78521",
+    "phone": "(956) 346-5877",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "auto"
+    ]
+  },
+  {
+    "id": "207",
+    "businessName": "Copy That Printing Solutions",
+    "category": "Services & Travel",
+    "discountAmount": "15% Discount",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "We offer general printing services such as but not limited to: graphic design, copies flyers, posters, banners, signs, business cards...and so much more!",
+    "address": "500 E Hackberry Ave Suite 230, Mcallen, TX 78501",
+    "phone": "(956) 956-369-2371",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Mcallen",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "208",
+    "businessName": "Lawnstarter Pest Control",
+    "category": "Services & Travel",
+    "discountAmount": "$20 off first service",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "Promo code EDU20 online",
+    "description": "Lawnstarter Pest Control offers all UTRGV employees $20 off on your first service. Additionally, there are over 50+ residential outdoor services to choose from.",
+    "address": "Online",
+    "phone": "(877) 518-0382",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "209",
+    "businessName": "uBreakiFix",
+    "category": "Auto & Tech",
+    "discountAmount": "$5 to $10 off every repair",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "We are the nation's largest electronic device repair company. We repair all types of smart phones, computers, laptops, tablets and game consoles.",
+    "address": "1616 West University Dr. Edinburg, TX",
+    "phone": "(956) 329-1080",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near TX",
+    "isFeatured": false,
+    "tags": [
+      "auto"
+    ]
+  },
+  {
+    "id": "301",
+    "businessName": "Boot Barn Inc",
+    "category": "Shop (Retail)",
+    "discountAmount": "15% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Western and Work Wear.",
+    "address": "507 W Expressway 83, McAllen, TX 78503",
+    "phone": "(432) 307-0464",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "302",
+    "businessName": "Brandit",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% on purchases",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Brandit - Embroidery/ Screen Printing/Laser Engraving.",
+    "address": "1200 W Polk Ave, Suite D, Pharr, TX",
+    "phone": "(956) 687-7666",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Suite D",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "303",
+    "businessName": "Champion Awards & Apparel",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% on qualifying products",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Trophies, screen printing, engraving, and embroidery.",
+    "address": "2627 N Texas Blvd, Weslaco, TX 78599",
+    "phone": "(956) 684-7154",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Weslaco",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "304",
+    "businessName": "Kame House Novelties",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "We sell anime merchandise. Our products include apparel, figures, posters, Funko Pops, keychains, stickers, backpacks, and much more.",
+    "address": "1034 E University Dr., Edinburg, TX 78452",
+    "phone": "(956) 715-2977",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "305",
+    "businessName": "Mandujano Boot Company",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Mandujano Bootmakers is a family-owned, third-generation company that specializes in handcrafted, custom-made western boots.",
+    "address": "809 N Texas Blvd, Weslaco, TX 78596",
+    "phone": "(956) 975-2565",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Weslaco",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "306",
+    "businessName": "Spartan Tactical Gear",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% Discount",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Retail, Embroidery",
+    "address": "132 N texas Blvd, Weslaco, TX 78596",
+    "phone": "956-800-2302",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Weslaco",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "307",
+    "businessName": "Trinidad Creations",
+    "category": "Shop (Retail)",
+    "discountAmount": "20% Discount",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Customized T-shirts, polos, tumblers, gift shop, boutique clothing.",
+    "address": "511 E. Ocean Blvd Ste 102, Los Fresnos, 78566",
+    "phone": "956-239-9839",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Los Fresnos",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "308",
+    "businessName": "Vaquero Outfitters",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% total purchase",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "Valid ID",
+    "description": "Vaquero Outfitters is a retail store offering officially licensed UTRGV apparel and merchandise.",
+    "address": "1516 W. Univeristy Dr. Edinburg, TX 78539",
+    "phone": "956-378-9020",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near TX 78539",
+    "isFeatured": true,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "401",
+    "businessName": "Beauty by Crystal",
+    "category": "Health & Beauty",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Provide aesthetician services such as lash lifts and facials.",
+    "address": "1605 E Griffin Parkway, Mission, TX 78572",
+    "phone": "(956) 777-5818",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Mission",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "402",
+    "businessName": "Cantu's Pharmacy",
+    "category": "Health & Beauty",
+    "discountAmount": "10% off OTC or Vitamins, Free Body Scan",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Provide various general pharmaceutical services.",
+    "address": "504 S. Closner Blvd, Edinburg, TX 78539",
+    "phone": "(956) 383-1239",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "403",
+    "businessName": "Crunch Fitness",
+    "category": "Health & Beauty",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "Bring UTRGV ID",
+    "description": "Crunch Fitness Edinburg.",
+    "address": "1201 S McColl Rd, Edinburg",
+    "phone": "(956) 609-9007",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": true,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "404",
+    "businessName": "DD Fragrance",
+    "category": "Health & Beauty",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Fragrance boutique with premade perfumes, diffusers, and a custom Blend Bar.",
+    "address": "2109 S 10th St, McAllen, TX 77503",
+    "phone": "(956) 403-6300",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "405",
+    "businessName": "Distinguished Wellness Center",
+    "category": "Health & Beauty",
+    "discountAmount": "20% off one service",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Distinguished is a barbershop with the amenities of a spa, we offer massage therapy.",
+    "address": "2413 Haine Drive, Harlingen, TX",
+    "phone": "(956) 230-0466",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Harlingen",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "406",
+    "businessName": "Hometown Nutrition & Energy",
+    "category": "Health & Beauty",
+    "discountAmount": "20% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Protein shakes, energy refreshers, protein donuts and waffles.",
+    "address": "901 S Raul Longoria Ste 16, Edinburg, TX 78542",
+    "phone": "(956) 935-1093",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "407",
+    "businessName": "HOTWORX Edinburg",
+    "category": "Health & Beauty",
+    "discountAmount": "$10 off monthly fee",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Patented sauna combines heat, infrared, and exercise.",
+    "address": "640 S Jackson Rd, Edinburg, TX 78539",
+    "phone": "(956) 435-7775",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "408",
+    "businessName": "Izzy's Barber Studio",
+    "category": "Health & Beauty",
+    "discountAmount": "$5.00 off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Barber Studio",
+    "address": "519 E. Nolana Loop Suite 7, Pharr TX",
+    "phone": "(956) 475-3060",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Pharr TX",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "409",
+    "businessName": "Natural Healing House",
+    "category": "Health & Beauty",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "NHH sells high quality health and wellness products.",
+    "address": "55 Union place, Suite #181, Summit NJ",
+    "phone": "956-780-1434",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Suite #181",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "410",
+    "businessName": "Purple Studio Waxing",
+    "category": "Health & Beauty",
+    "discountAmount": "$5 off services over $20",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "We are a waxing studio that specializes in full body waxing.",
+    "address": "214 N. 16th st. Suite 200, Mcallen, TX",
+    "phone": "956-253-4711",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Mcallen",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "411",
+    "businessName": "RGV CPR, LLC",
+    "category": "Health & Beauty",
+    "discountAmount": "$5 off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Provide American Heart Association CPR/BLS/First Aid/ACLS/PALS training and certification.",
+    "address": "108 N. Jackson Rd, Suite 21, Edinburg, TX",
+    "phone": "",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Suite 21",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "412",
+    "businessName": "University Barbershop",
+    "category": "Health & Beauty",
+    "discountAmount": "20% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Barbershop that caters to all things UTRGV! Located right in front of campus.",
+    "address": "317 S Sugar Rd, Edinburg, Texas 78539",
+    "phone": "",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "413",
+    "businessName": "9Round McAllen",
+    "category": "Health & Beauty",
+    "discountAmount": "$15/session + 25% off gear",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "In person",
+    "description": "Kickboxing Fitness - Full-Body Workout.",
+    "address": "5113 North 10th St Ste B. McAllen, Texas 78504",
+    "phone": "956-800-4411",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Texas 78504",
+    "isFeatured": false,
+    "tags": [
+      "health"
+    ]
+  },
+  {
+    "id": "501",
+    "businessName": "Cobbleheads Bar and Grill",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off food (no alcohol)",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID, In person",
+    "description": "We have outside and inside dining, great food, cold beer, amazing atmosphere.",
+    "address": "3154 Central Blvd, Brownsville, TX 78520",
+    "phone": "(956) 546-6224",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": true,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "502",
+    "businessName": "Frozone Texas",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off purchase",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Edinburg's newest frozen yogurt shop, offering a fun, self-serve experience.",
+    "address": "2801 W University Dr. Ste 7, Edinburg, TX 78539",
+    "phone": "(956) 838-9848",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "503",
+    "businessName": "Hungry Howie's Pizza",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off entire purchase",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Flavor crust pizza with fresh ingredients.",
+    "address": "8001 N. 10th St, McAllen, TX 78504",
+    "phone": "(956) 688-8898",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "504",
+    "businessName": "Jolie Petite",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off purchase",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "French-inspired restaurant nestled in the heart of downtown Brownsville.",
+    "address": "1105 E Adams Street, Brownsville, TX 78520",
+    "phone": "(956) 280-5105",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "505",
+    "businessName": "Kailani Food and Beverages",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off highest priced item",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Locally owned, community-focused restaurant dedicated to offering fresh, customizable poke bowls.",
+    "address": "500 E Morrison Rd Ste C, Brownsville, TX, 78526",
+    "phone": "(956) 551-2914",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "506",
+    "businessName": "Keto Mini Donuts",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Nutritional bakery serving gluten free and sugar free pastries.",
+    "address": "2222 S. Expwy 83, Harlingen, TX, Ste. 502",
+    "phone": "",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Harlingen",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "507",
+    "businessName": "Moboba",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Family-owned specialty boba tea and dessert shop.",
+    "address": "1715 W Trenton Rd,Suite 108, Edinburg, TX 78539",
+    "phone": "(956) 287-4518",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Suite 108",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "508",
+    "businessName": "Pizza Patr\u00f3n",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Classic and Latin-Inspired pizza menu.",
+    "address": "2758 W. University Dr.",
+    "phone": "(956) 270-4261",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "509",
+    "businessName": "Pollo Hut",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Pollo Hut is all about giving back to the community.",
+    "address": "2613 S Alamo Rd. Edinburg, TX 78542",
+    "phone": "(956) 287-4468",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near TX 78542",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "510",
+    "businessName": "Papa Johns (RGV Eats)",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "15% off total",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Locally and veteran-owned, proudly serves the community.",
+    "address": "4237 N. Expressway 77 Ste 5, Brownsville, tx 78520",
+    "phone": "(956) 658-1869",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "511",
+    "businessName": "RGV WINGS",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "RGV WINGS sells Wings, Burgers, Tacos, Nachos, Hot Dogs & Desserts.",
+    "address": "2113 W Trenton Rd",
+    "phone": "(956) 348-5555",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "512",
+    "businessName": "Sonic Drive-In",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Fast-food burger & fries joint with an old-school feel.",
+    "address": "Multiple Locations (Brownsville, Weslaco, Pharr, McAllen, Edinburg)",
+    "phone": "",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Weslaco",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "513",
+    "businessName": "Taco Palenque",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "25% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Fresh Mex cooked every day.",
+    "address": "1414 W University Dr, Edinburg, TX, 78539",
+    "phone": "(956) 890-7734",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "514",
+    "businessName": "Tacos Mi Gente",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "BBQ Restaurant featuring slow smoked meats.",
+    "address": "5924 Hwy 107, Mission, TX 78573",
+    "phone": "(956) 599-9527",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Mission",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "515",
+    "businessName": "Taquitos El Bocho",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off one personal meal",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Family, Flavor, and Tradition.",
+    "address": "Edinburg area",
+    "phone": "",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "516",
+    "businessName": "Terras Urban Mexican Kitchen",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "Unknown",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Urban Mexican Kitchen.",
+    "address": "1212 E Washington St, Brownsville, TX 78520",
+    "phone": "(956) 641-2718",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "517",
+    "businessName": "The Sip Society Co",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "15% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Boutique caf\u00e9 and bakery in downtown Brownsville.",
+    "address": "1018 E Washington St, Brownsville, TX 78521",
+    "phone": "(956) 909-9036",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "518",
+    "businessName": "TORA Coffee & Tea Bar",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Indulgent, culturally inspired baked goods and drinks.",
+    "address": "Harlingen & Brownsville",
+    "phone": "(956) 230-3224",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "519",
+    "businessName": "Wing Barn",
+    "category": "Eat & Drink (Food & Dining)",
+    "discountAmount": "Free 5 Piece Boneless w/ meal purchase",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Wings, sauces, and know-how in the kitchen.",
+    "address": "4013 South I-69 C, Edinburg, TX 78539 (and 10 other locations)",
+    "phone": "(956) 513-1102",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "eat"
+    ]
+  },
+  {
+    "id": "601",
+    "businessName": "Kickin Axes",
+    "category": "Fun & Events (Entertainment)",
+    "discountAmount": "$10/hr rate",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Indoor Axe Throwing facility.",
+    "address": "1017 Shasta Ave, McAllen, TX 78586",
+    "phone": "(956)456-2221",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen",
+    "isFeatured": false,
+    "tags": [
+      "fun"
+    ]
+  },
+  {
+    "id": "602",
+    "businessName": "Main Event Entertainment",
+    "category": "Fun & Events (Entertainment)",
+    "discountAmount": "$20 for $20 Game Play Bonus",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Bowling, Laser Tag, Mini Golf and Billiard experiences.",
+    "address": "Pharr & Brownsville",
+    "phone": "(956) 787-7100",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": true,
+    "tags": [
+      "fun"
+    ]
+  },
+  {
+    "id": "603",
+    "businessName": "Once Upon A Flash Photo Booth",
+    "category": "Fun & Events (Entertainment)",
+    "discountAmount": "20% OFF",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "We offer photobooth services for any type of events.",
+    "address": "5143 Black St. Weslaco, TX 78599",
+    "phone": "(956) 566-5909",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near TX 78599",
+    "isFeatured": false,
+    "tags": [
+      "fun"
+    ]
+  },
+  {
+    "id": "604",
+    "businessName": "Rent from Jen",
+    "category": "Fun & Events (Entertainment)",
+    "discountAmount": "5-10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Event rental and design. Tents, Lighting, Dance floors, etc.",
+    "address": "1208 May Dr., Edinburg, TX 78539",
+    "phone": "(956) 329-4041",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "fun"
+    ]
+  },
+  {
+    "id": "605",
+    "businessName": "Selfies & More Studio",
+    "category": "Fun & Events (Entertainment)",
+    "discountAmount": "20% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Interactive photo studio for booking private events.",
+    "address": "5429 N. 23rd Ste E, Mcallen, TX, 78504",
+    "phone": "(956) 207-8696",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Mcallen",
+    "isFeatured": false,
+    "tags": [
+      "fun"
+    ]
+  },
+  {
+    "id": "606",
+    "businessName": "Shary Road Alpacas & Events",
+    "category": "Fun & Events (Entertainment)",
+    "discountAmount": "Buy 2 Entries get 3rd free",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Seasonal Photo Venue with Petting Zoo.",
+    "address": "9643 N Shary Rd, Mission, TX 78573",
+    "phone": "(956) 393-7504",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Mission",
+    "isFeatured": false,
+    "tags": [
+      "fun"
+    ]
+  },
+  {
+    "id": "701",
+    "businessName": "Avis, Budget and Hertz Car Rental",
+    "category": "Services & Travel",
+    "discountAmount": "Up to 25% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "Use code AWD#: D134100",
+    "description": "Employees can save UP TO 25% OFF Base Rates.",
+    "address": "Online",
+    "phone": "800-331-1212",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "702",
+    "businessName": "A+ Employee Travel Perks",
+    "category": "Services & Travel",
+    "discountAmount": "Savings average 10-20% below market",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "Online",
+    "description": "Exclusive discounts on all hotels, car rentals, entertainment, vacation rentals.",
+    "address": "Online",
+    "phone": "(778) 279-7900",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "703",
+    "businessName": "Hawthorn Suites by Wyndham",
+    "category": "Services & Travel",
+    "discountAmount": "$119.00 King Suites only",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Extended stay hotel with available suites, complimentary breakfast and available shuttles.",
+    "address": "4801 W Expwy 83, McAllen, TX 78503",
+    "phone": "(956) 618-7240",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen",
+    "isFeatured": false,
+    "tags": [
+      "services"
+    ]
+  },
+  {
+    "id": "801",
+    "businessName": "All Around Fun 360 Photo Booth",
+    "category": "Shop (Retail)",
+    "discountAmount": "$100 an hour",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "360 Photobooth",
+    "address": "30047 FM 1847, Los Fresnos, TX 78566",
+    "phone": "(956) 371-9039",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Los Fresnos",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "802",
+    "businessName": "Bosky Strings",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% off sale, 20% off repairs",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Full-service specialty shop exclusively for orchestral string instruments.",
+    "address": "3906 S. Jackson Road, Suite C, Edinburg TX",
+    "phone": "(956) 378-9018",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Suite C",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "803",
+    "businessName": "Calderon Furniture",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Furniture, mattress, appliances, outdoor furniture, etc.",
+    "address": "Pharr, Alamo, Mission and Edinburg",
+    "phone": "",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Alamo",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "804",
+    "businessName": "Chapa Insurance Group",
+    "category": "Shop (Retail)",
+    "discountAmount": "25% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Tax services, Tax Planning, Small Business Support.",
+    "address": "1284 Paredes Line Rd Ste 4, Brownsville, TX 78521",
+    "phone": "(956) 620-1840",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "805",
+    "businessName": "EverBeauty Nursery",
+    "category": "Shop (Retail)",
+    "discountAmount": "15% Off $150.00 or more",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Long-standing garden center offering a large selection of plants.",
+    "address": "8217 E. Iowa Rd, Edinburg, TX 78542",
+    "phone": "(956) 897-4090",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Edinburg",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "806",
+    "businessName": "Impulso Digital RGV",
+    "category": "Shop (Retail)",
+    "discountAmount": "$25 dollars off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Backdrop decorations services for graduation parties, birthday parties, etc.",
+    "address": "1514 Beaumont Ave, McAllen TX 78501",
+    "phone": "(956) 475-4157",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen TX 78501",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "807",
+    "businessName": "Marcelo's Floor Covering",
+    "category": "Shop (Retail)",
+    "discountAmount": "10% Discount",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Carpet, wood, tile, and vinyl plank for all your flooring needs.",
+    "address": "24 W Jefferson, Brownsville, TX 78520",
+    "phone": "(956) 546-8828",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near Brownsville",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "808",
+    "businessName": "Mini Lens Photography",
+    "category": "Shop (Retail)",
+    "discountAmount": "20% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Available for family, portraits, events, graduation, etc.",
+    "address": "255 S Kansas Ave Weslaco, TX 78596",
+    "phone": "(956) 532-0139",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near TX 78596",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "809",
+    "businessName": "Selah Marketing & Photography",
+    "category": "Shop (Retail)",
+    "discountAmount": "20% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Marketing and Photography",
+    "address": "See Website",
+    "phone": "(956) 222-5963",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "810",
+    "businessName": "TeacherPerks.com",
+    "category": "Shop (Retail)",
+    "discountAmount": "Discounts at 200+ retailers",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff",
+      "Alumni"
+    ],
+    "howToRedeem": "Online registration",
+    "description": "Teacher Perks connects teachers and staff to over 200 top national retailers.",
+    "address": "Online",
+    "phone": "(212)-725-8989",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "RGV Area",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  },
+  {
+    "id": "811",
+    "businessName": "Villa Regale",
+    "category": "Shop (Retail)",
+    "discountAmount": "3% off",
+    "whoCanRedeem": [
+      "Students",
+      "Faculty",
+      "Staff"
+    ],
+    "howToRedeem": "UTRGV ID",
+    "description": "Apartment community with preferred employer discount.",
+    "address": "4200 N. Chai St., McAllen, TX 78504",
+    "phone": "(956)-213-8888",
+    "email": "",
+    "website": "",
+    "social": "",
+    "campusProximity": "Near McAllen",
+    "isFeatured": false,
+    "tags": [
+      "shop"
+    ]
+  }
+]
