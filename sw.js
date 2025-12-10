@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vaquero-v1';
+const CACHE_NAME = 'vaquero-v2';
 const ASSETS = [
   './',
   './vaquero-discounts.html',
