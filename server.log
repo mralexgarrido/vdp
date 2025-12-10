@@ -3,3 +3,18 @@
 127.0.0.1 - - [10/Dec/2025 14:54:53] "GET / HTTP/1.1" 200 -
 127.0.0.1 - - [10/Dec/2025 14:54:53] "GET /manifest.json HTTP/1.1" 200 -
 127.0.0.1 - - [10/Dec/2025 14:54:53] "GET /icon.png HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:09:32] "GET /vaquero-discounts.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:09:32] code 404, message File not found
+127.0.0.1 - - [10/Dec/2025 15:09:32] "GET /utrgv-logo.png HTTP/1.1" 404 -
+127.0.0.1 - - [10/Dec/2025 15:09:33] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:09:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:09:33] "GET /manifest.json HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:09:33] "GET /icon.png HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:09:33] code 404, message File not found
+127.0.0.1 - - [10/Dec/2025 15:09:33] "GET /utrgv-logo.png HTTP/1.1" 404 -
+127.0.0.1 - - [10/Dec/2025 15:10:26] "GET /vaquero-discounts.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:10:26] "GET /utrgv-logo.png HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:10:26] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:10:26] "GET /manifest.json HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:10:26] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2025 15:10:26] "GET /icon.png HTTP/1.1" 200 -

@@ -1,9 +1,10 @@
-const CACHE_NAME = 'vaquero-v2';
+const CACHE_NAME = 'vaquero-v3';
 const ASSETS = [
   './',
   './vaquero-discounts.html',
   './manifest.json',
-  './icon.png'
+  './icon.png',
+  './utrgv-logo.png'
 ];
 
 self.addEventListener('install', (e) => {
