@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#F05023">
     <title>Vaquero Discounts</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <!-- PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <style>
         :root {
             --primary: #F05023;
@@ -259,33 +267,6 @@
             color: var(--text-muted);
         }
 
-        .card-body {
-            padding: 0 16px 16px 16px;
-            display: none; /* Hidden by default */
-            border-top: 1px solid #f0f0f0;
-            margin-top: 8px;
-            padding-top: 12px;
-            font-size: 0.9rem;
-        }
-        .card.expanded .card-body { display: block; }
-
-        .detail-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-        .detail-icon {
-            width: 18px;
-            height: 18px;
-            color: var(--secondary);
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .detail-text { color: var(--text-main); word-break: break-word; }
-        .detail-text a { color: var(--primary); text-decoration: none; }
-        .detail-text a:hover { text-decoration: underline; }
-
         .card-actions {
             padding: 12px 16px;
             background: #fafafa;
@@ -293,10 +274,10 @@
             margin-top: auto;
             text-align: center;
         }
-        .expand-btn {
+        .details-btn {
             background: none;
             border: none;
-            color: var(--secondary);
+            color: var(--primary);
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
@@ -304,8 +285,130 @@
             align-items: center;
             gap: 4px;
         }
-        .expand-btn svg { transition: transform 0.2s; }
-        .card.expanded .expand-btn svg { transform: rotate(180deg); }
+        .details-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Modal --- */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: #fff;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-backdrop.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 10;
+        }
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-main);
+        }
+        .close-modal-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+        }
+        .close-modal-btn:hover { color: var(--primary); }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-detail-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .modal-detail-icon {
+            color: var(--primary);
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .modal-label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        .modal-value {
+            font-size: 1rem;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .pdf-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .pdf-btn:hover {
+            background: #d64015;
+        }
+
 
         /* --- Footer --- */
         footer {
@@ -391,6 +494,27 @@
 
     </main>
 
+    <!-- Modal -->
+    <div id="modalBackdrop" class="modal-backdrop">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">Business Name</h2>
+                <button class="close-modal-btn" onclick="closeModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic Content -->
+            </div>
+            <div class="modal-footer">
+                <button class="pdf-btn" onclick="saveCurrentAsPDF()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                    Save as PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p><strong>Disclaimer:</strong> Vendors and offers are subject to change without notice.</p>
         <p>Please visit the <a href="https://www.utrgv.edu/hr/benefits/index.htm" target="_blank" class="footer-link">official UTRGV Human Resources website</a> for the most up-to-date policy and participation details.</p>
@@ -403,7 +527,7 @@
         <svg id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
         <svg id="icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
         <svg id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-        <svg id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <svg id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </div>
 
     <script>
@@ -1552,7 +1676,8 @@
         let state = {
             search: "",
             category: null,
-            eligibility: new Set()
+            eligibility: new Set(),
+            currentModalItem: null
         };
 
         // --- DOM ELEMENTS ---
@@ -1565,7 +1690,10 @@
             featuredGrid: document.getElementById('featuredGrid'),
             resultsGrid: document.getElementById('resultsGrid'),
             resultCount: document.getElementById('resultCount'),
-            emptyState: document.getElementById('emptyState')
+            emptyState: document.getElementById('emptyState'),
+            modalBackdrop: document.getElementById('modalBackdrop'),
+            modalTitle: document.getElementById('modalTitle'),
+            modalBody: document.getElementById('modalBody')
         };
 
         // --- ICONS ---
@@ -1574,7 +1702,7 @@
             phone: document.getElementById('icon-phone').innerHTML,
             globe: document.getElementById('icon-globe').innerHTML,
             info: document.getElementById('icon-info').innerHTML,
-            chevron: document.getElementById('icon-chevron-down').innerHTML
+            chevron: document.getElementById('icon-chevron-right').innerHTML
         };
 
         // --- INIT ---
@@ -1583,6 +1711,15 @@
             renderFilters();
             renderAll();
             setupListeners();
+            registerSW();
+        }
+
+        function registerSW() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.log('SW Registration Failed', err));
+            }
         }
 
         function setupListeners() {
@@ -1602,7 +1739,7 @@
                     } else {
                         state.category = cat;
                     }
-                    renderCategoryChips(); // Re-render chips to show active state
+                    renderCategoryChips();
                     saveState();
                     renderAll();
                 }
@@ -1626,6 +1763,13 @@
 
             // Clear
             els.clearBtn.addEventListener('click', clearAllFilters);
+
+            // Modal Backdrop Click
+            els.modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === els.modalBackdrop) {
+                    closeModal();
+                }
+            });
         }
 
         function clearAllFilters() {
@@ -1641,9 +1785,7 @@
 
         // --- RENDER FILTERS ---
         function renderFilters() {
-            // Categories
             renderCategoryChips();
-            // Eligibility is static HTML but needs active class update
             renderEligibilityToggles();
             els.search.value = state.search;
         }
@@ -1665,7 +1807,6 @@
                 }
             });
 
-            // Show clear button if any filter active
             const hasFilters = state.search || state.category || state.eligibility.size > 0;
             els.clearBtn.style.display = hasFilters ? 'block' : 'none';
         }
@@ -1673,64 +1814,37 @@
         // --- CORE LOGIC ---
         function getFilteredDiscounts() {
             return DISCOUNTS.filter(d => {
-                // Search
                 if (state.search) {
                     const q = state.search.toLowerCase();
                     const text = (d.businessName + " " + d.description + " " + d.tags.join(" ")).toLowerCase();
                     if (!text.includes(q)) return false;
                 }
-
-                // Category
                 if (state.category && d.category !== state.category) {
                     return false;
                 }
-
-                // Eligibility
                 if (state.eligibility.size > 0) {
-                    // Intersection: Item must support ALL selected? Or ANY?
-                    // Requirement: "intersect with the selected eligibility set"
-                    // Usually means: If I select "Students", show me things Students can redeem.
-                    // If I select "Students" AND "Staff", show me things that are for Students OR Staff?
-                    // "A discount matches if its whoCanRedeem array intersects with the selected eligibility set."
-                    // This implies OR logic between the selected filters for matching (if I am a Student and Staff, show me deals for either).
-                    // BUT Requirement says: "All filters should be applied with AND logic" (between search, category, eligibility).
-
                     const selected = Array.from(state.eligibility);
                     const hasIntersection = selected.some(role => d.whoCanRedeem.includes(role));
                     if (!hasIntersection) return false;
                 }
-
                 return true;
             }).sort((a, b) => a.businessName.localeCompare(b.businessName));
         }
 
         function renderAll() {
             const filtered = getFilteredDiscounts();
-
-            // Update counts
             els.resultCount.textContent = `Showing ${filtered.length} discount${filtered.length !== 1 ? 's' : ''}`;
 
-            // Featured
             const featured = filtered.filter(d => d.isFeatured);
-            // Sort featured: Featured items at top, but if we are filtering, we just show relevant featured ones.
-            // Requirement: "A small Featured Discounts area at the top of the results... showing a small subset".
-            // If we have filters, maybe we shouldn't show the separate section?
-            // Usually featured sections disappear when searching/filtering to avoid duplication.
-            // Let's hide Featured if searching or categorizing, OR just show featured subset of results.
-            // Let's hide Featured section if user has active filters to keep results clean,
-            // OR keep it but ensure no dupes.
-            // Requirement says "If no entries are featured, hide this section."
-
             const isFiltering = state.search || state.category || state.eligibility.size > 0;
 
             if (featured.length > 0 && !isFiltering) {
                 els.featuredSection.style.display = 'block';
-                els.featuredGrid.innerHTML = featured.slice(0, 3).map(renderCard).join(''); // Show top 3 featured
+                els.featuredGrid.innerHTML = featured.slice(0, 3).map(renderCard).join('');
             } else {
                 els.featuredSection.style.display = 'none';
             }
 
-            // Main Results
             if (filtered.length === 0) {
                 els.resultsGrid.innerHTML = '';
                 els.emptyState.style.display = 'block';
@@ -1738,79 +1852,213 @@
                 els.emptyState.style.display = 'none';
                 els.resultsGrid.innerHTML = filtered.map(renderCard).join('');
             }
+            renderEligibilityToggles();
+        }
 
-            renderEligibilityToggles(); // Update clear button visibility
+        function truncateText(text, limit) {
+            if (text.length <= limit) return text;
+            return text.substring(0, limit) + "...";
         }
 
         function renderCard(item) {
-            // Format eligibility
             const who = item.whoCanRedeem.join(", ");
-
-            // Icons
-            const mapIcon = `<svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+            // Truncate discount amount
+            const discountDisplay = truncateText(item.discountAmount, 25);
 
             return `
-            <article class="card" id="card-${item.id}">
+            <article class="card">
                 <div class="card-header">
                     <div class="card-badge-row">
                         <span class="category-badge">${item.category}</span>
-                        <span class="discount-badge">${item.discountAmount}</span>
+                        <span class="discount-badge" title="${item.discountAmount}">${discountDisplay}</span>
                     </div>
                     <h3 class="card-title">${item.businessName}</h3>
                     <div class="card-eligibility">For: ${who}</div>
                 </div>
 
-                <div class="card-body">
-                    <div class="detail-row">
-                        <span class="detail-icon">${icons.info}</span>
-                        <span class="detail-text"><strong>Redeem:</strong> ${item.howToRedeem}</span>
-                    </div>
-
-                    ${item.description ? `
-                    <p style="margin: 0 0 8px 0; color: var(--text-muted); font-size: 0.9em;">${item.description}</p>
-                    ` : ''}
-
-                    ${item.address ? `
-                    <div class="detail-row">
-                        ${icons.map}
-                        <span class="detail-text">
-                            <a href="https://maps.google.com/?q=${encodeURIComponent(item.address)}" target="_blank">${item.address}</a>
-                            ${item.campusProximity ? `<br><small style="color:var(--text-muted)">(${item.campusProximity})</small>` : ''}
-                        </span>
-                    </div>
-                    ` : ''}
-
-                    ${item.phone ? `
-                    <div class="detail-row">
-                        ${icons.phone}
-                        <span class="detail-text"><a href="tel:${item.phone}">${item.phone}</a></span>
-                    </div>
-                    ` : ''}
-
-                    ${item.website ? `
-                    <div class="detail-row">
-                        ${icons.globe}
-                        <span class="detail-text"><a href="${item.website}" target="_blank">Visit Website</a></span>
-                    </div>
-                    ` : ''}
-                </div>
-
                 <div class="card-actions">
-                    <button class="expand-btn" onclick="toggleCard('${item.id}')">
-                        Details <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <button class="details-btn" onclick="openModal('${item.id}')">
+                        View Details <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
                 </div>
             </article>
             `;
         }
 
-        // Global scope for onclick
-        window.toggleCard = function(id) {
-            const card = document.getElementById(`card-${id}`);
-            if (card) {
-                card.classList.toggle('expanded');
-                // Optional: Update button text? No, kept simple "Details" with chevron rotation
+        // --- MODAL & PDF ---
+        window.openModal = function(id) {
+            const item = DISCOUNTS.find(d => d.id == id);
+            if (!item) return;
+            state.currentModalItem = item;
+
+            els.modalTitle.textContent = item.businessName;
+
+            const who = item.whoCanRedeem.join(", ");
+
+            els.modalBody.innerHTML = `
+                <div style="background:rgba(240, 80, 35, 0.1); padding:12px; border-radius:8px; margin-bottom:20px;">
+                    <span class="modal-label" style="color:var(--primary);">Discount Offer</span>
+                    <strong style="font-size:1.2rem; color:var(--primary);">${item.discountAmount}</strong>
+                </div>
+
+                <div class="modal-detail-row">
+                    <div class="modal-detail-icon">${icons.info}</div>
+                    <div>
+                        <span class="modal-label">How to Redeem</span>
+                        <div class="modal-value">${item.howToRedeem}</div>
+                    </div>
+                </div>
+
+                <div class="modal-detail-row">
+                    <div class="modal-detail-icon" style="color:var(--secondary);">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <div>
+                        <span class="modal-label">Eligibility</span>
+                        <div class="modal-value">${who}</div>
+                    </div>
+                </div>
+
+                ${item.description ? `
+                <div class="modal-detail-row">
+                     <div class="modal-detail-icon" style="color:var(--secondary);opacity:0;"></div>
+                    <div style="font-style:italic; color:var(--text-muted);">${item.description}</div>
+                </div>
+                ` : ''}
+
+                ${item.address ? `
+                <div class="modal-detail-row">
+                    <div class="modal-detail-icon">${icons.map}</div>
+                    <div>
+                        <span class="modal-label">Location</span>
+                        <div class="modal-value">
+                            <a href="https://maps.google.com/?q=${encodeURIComponent(item.address)}" target="_blank" style="color:var(--text-main); text-decoration:underline;">${item.address}</a>
+                            ${item.campusProximity ? `<div style="font-size:0.85em; color:var(--text-muted); margin-top:2px;">(${item.campusProximity})</div>` : ''}
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
+
+                ${item.phone ? `
+                <div class="modal-detail-row">
+                    <div class="modal-detail-icon">${icons.phone}</div>
+                    <div>
+                        <span class="modal-label">Phone</span>
+                        <div class="modal-value"><a href="tel:${item.phone}" style="color:var(--text-main); text-decoration:none;">${item.phone}</a></div>
+                    </div>
+                </div>
+                ` : ''}
+
+                ${item.website ? `
+                <div class="modal-detail-row">
+                    <div class="modal-detail-icon">${icons.globe}</div>
+                    <div>
+                        <span class="modal-label">Website</span>
+                        <div class="modal-value"><a href="${item.website}" target="_blank" style="color:var(--primary);">Visit Website</a></div>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            els.modalBackdrop.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        };
+
+        window.closeModal = function() {
+            els.modalBackdrop.classList.remove('active');
+            document.body.style.overflow = '';
+            state.currentModalItem = null;
+        };
+
+        window.saveCurrentAsPDF = function() {
+            if (!state.currentModalItem) return;
+            const item = state.currentModalItem;
+
+            if (!window.jspdf) {
+                alert("PDF library not loaded. Please check internet connection.");
+                return;
             }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Layout constants
+            const margin = 20;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const contentWidth = pageWidth - (margin * 2);
+
+            // Branding Header
+            doc.setFillColor(240, 80, 35); // UTRGV Orange
+            doc.rect(0, 0, pageWidth, 40, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(24);
+            doc.setFont("helvetica", "bold");
+            doc.text("UTRGV Vaquero Discounts", margin, 25);
+
+            let y = 60;
+
+            // Business Name
+            doc.setTextColor(29, 29, 31); // Dark Gray
+            doc.setFontSize(22);
+            doc.setFont("helvetica", "bold");
+            const titleSplit = doc.splitTextToSize(item.businessName, contentWidth);
+            doc.text(titleSplit, margin, y);
+            y += (titleSplit.length * 10) + 10;
+
+            // Discount Box
+            doc.setFillColor(250, 250, 250);
+            doc.setDrawColor(220, 220, 220);
+            doc.roundedRect(margin, y, contentWidth, 30, 3, 3, 'FD');
+
+            doc.setTextColor(240, 80, 35);
+            doc.setFontSize(16);
+            doc.text("Discount Offer:", margin + 5, y + 10);
+
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(50, 50, 50);
+            const discountSplit = doc.splitTextToSize(item.discountAmount, contentWidth - 10);
+            doc.text(discountSplit, margin + 5, y + 20);
+
+            y += 45;
+
+            // Details
+            function addDetail(label, value) {
+                if (!value) return;
+                doc.setFontSize(10);
+                doc.setTextColor(134, 134, 139); // Muted
+                doc.text(label.toUpperCase(), margin, y);
+                y += 5;
+
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                const valSplit = doc.splitTextToSize(value, contentWidth);
+                doc.text(valSplit, margin, y);
+                y += (valSplit.length * 6) + 10;
+            }
+
+            addDetail("How to Redeem", item.howToRedeem);
+            addDetail("Eligibility", item.whoCanRedeem.join(", "));
+            addDetail("Location", item.address);
+            if (item.phone) addDetail("Phone", item.phone);
+
+            // Disclaimer Message
+            y = Math.max(y, 250); // Push to bottom if space allows, or just margin
+            if (y > 250) y += 10;
+            else y = 250;
+
+            doc.setDrawColor(240, 80, 35);
+            doc.setLineWidth(0.5);
+            doc.line(margin, y - 10, pageWidth - margin, y - 10);
+
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            const msg = "Presented by UTRGV Human Resources. This discount is for UTRGV Students, Faculty, Staff, and Alumni. Please present your UTRGV ID to redeem.";
+            const msgSplit = doc.splitTextToSize(msg, contentWidth);
+            doc.text(msgSplit, margin, y);
+
+            doc.save(`${item.businessName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_discount.pdf`);
         };
 
         window.clearAllFilters = clearAllFilters;
