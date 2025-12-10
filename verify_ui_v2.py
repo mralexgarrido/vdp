@@ -17,23 +17,17 @@ def verify_changes():
         print("Screenshotting Header...")
         header_el = page.locator(".utrgv-header")
         if header_el.count() > 0:
-            header_el.screenshot(path="verification_header.png")
+            header_el.screenshot(path="verification_header_logo.png")
         else:
             print("Header not found!")
 
-        # 4. Open a Modal
-        print("Opening modal for first item...")
-        # Click the first 'View Details' button
-        first_btn = page.locator(".details-btn").first
-        first_btn.click()
-
-        # Wait for modal
-        page.wait_for_selector(".modal-content")
-        page.wait_for_timeout(500) # Animation
-
-        # Screenshot Modal
-        print("Screenshotting Modal...")
-        page.screenshot(path="verification_modal.png")
+        # 4. Screenshot App Header with Buttons
+        print("Screenshotting App Header...")
+        app_header_el = page.locator(".app-header")
+        if app_header_el.count() > 0:
+            app_header_el.screenshot(path="verification_app_header.png")
+        else:
+            print("App Header not found!")
 
         browser.close()
 
