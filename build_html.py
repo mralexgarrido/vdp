@@ -1,7 +1,53 @@
 import json
+import csv
 
-with open("data.json", "r") as f:
-    discounts_json = f.read()
+CSV_FILE = "categorized_discounts.csv"
+OUTPUT_HTML = "vaquero-discounts.html"
+
+def load_data_from_csv():
+    discounts = []
+    try:
+        with open(CSV_FILE, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # Transform fields back to what JS expects
+
+                # whoCanRedeem: "A;B" -> ["A", "B"]
+                who = row.get("whoCanRedeem", "").split(";")
+                who = [x.strip() for x in who if x.strip()]
+
+                # tags: "tag" -> ["tag"]
+                tags = [row.get("tags", "")]
+
+                # isFeatured: "True" -> True
+                is_featured = row.get("isFeatured", "False") == "True"
+
+                # Construct object
+                item = {
+                    "id": row["id"],
+                    "businessName": row["businessName"],
+                    "category": row["category"],
+                    "discountAmount": row["discountAmount"],
+                    "whoCanRedeem": who,
+                    "howToRedeem": row["howToRedeem"],
+                    "description": row["description"],
+                    "address": row["address"],
+                    "phone": row["phone"],
+                    "email": row["email"],
+                    "website": row["website"],
+                    "social": "", # Not in CSV currently
+                    "campusProximity": row["campusProximity"],
+                    "isFeatured": is_featured,
+                    "tags": tags
+                }
+                discounts.append(item)
+    except FileNotFoundError:
+        print(f"Error: {CSV_FILE} not found. Please run fetch_and_process.py first.")
+        return []
+    return discounts
+
+discounts_data = load_data_from_csv()
+discounts_json = json.dumps(discounts_data, indent=2)
 
 html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -722,7 +768,7 @@ html_content = f"""<!DOCTYPE html>
 </html>
 """
 
-with open("vaquero-discounts.html", "w") as f:
+with open(OUTPUT_HTML, "w", encoding='utf-8') as f:
     f.write(html_content)
 
-print("File created successfully.")
+print(f"File {OUTPUT_HTML} created successfully.")
