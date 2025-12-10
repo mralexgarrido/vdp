@@ -38,10 +38,14 @@ def load_data_from_csv():
                     "phone": row["phone"],
                     "email": row["email"],
                     "website": row["website"],
-                    "social": "", # Not in CSV currently
+                    "social": "",
                     "campusProximity": row["campusProximity"],
                     "isFeatured": is_featured,
-                    "tags": tags
+                    "tags": tags,
+                    # New internal fields
+                    "joinDate": row.get("joinDate", ""),
+                    "authorizedBy": row.get("authorizedBy", ""),
+                    "contactTitle": row.get("contactTitle", "")
                 }
                 discounts.append(item)
     except FileNotFoundError:
@@ -75,7 +79,7 @@ manifest_content = """{
 }"""
 
 # --- SW.JS ---
-sw_content = """const CACHE_NAME = 'vaquero-v1';
+sw_content = """const CACHE_NAME = 'vaquero-v2';
 const ASSETS = [
   './',
   './vaquero-discounts.html',
@@ -109,6 +113,11 @@ html_content = f"""<!DOCTYPE html>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
     <!-- PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -121,79 +130,197 @@ html_content = f"""<!DOCTYPE html>
             --text-main: #1D1D1F;
             --text-muted: #86868B;
             --border-color: #D2D2D7;
-            --radius: 12px;
+            --radius: 8px; /* Slightly sharper for official look */
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             --transition: 0.2s ease-in-out;
+            --header-orange: #F05023;
+            --header-gray: #575757;
         }}
 
         * {{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}
         body {{
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
             line-height: 1.5;
         }}
 
-        /* --- Header --- */
-        header {{
-            background: #fff;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 16px;
+        /* --- Global UTRGV Header --- */
+        .utrgv-header {{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }}
+
+        /* Top Orange Bar */
+        .header-top {{
+            background-color: var(--header-orange);
+            color: white;
+            padding: 0;
+            height: 55px; /* Fixed height for consistency */
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+        }}
+
+        .header-logo-container {{
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            background: var(--header-orange);
+            z-index: 2;
+        }}
+
+        /* SVG Logo approximation */
+        .utrgv-logo-svg {{
+            height: 32px;
+            width: auto;
+            fill: white;
+            margin-right: 15px;
+        }}
+
+        .header-10years {{
+             height: 38px;
+             margin-left: 5px;
+             border-left: 1px solid rgba(255,255,255,0.3);
+             padding-left: 10px;
+        }}
+
+        /* Slanted Divider */
+        .header-divider {{
+            height: 55px;
+            width: 40px;
+            background: var(--header-orange);
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+            margin-left: -1px; /* Overlap slightly */
+            z-index: 1;
+        }}
+
+        /* Gray Bar (Desktop: To the right of orange; Mobile: Below?)
+           Actually UTRGV site keeps them on same line for desktop, but mobile is stacked.
+           We will try to mimic the image provided which shows a continuous bar.
+        */
+        .header-main-bar {{
+            flex-grow: 1;
+            background-color: var(--header-gray);
+            height: 55px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            padding-left: 20px; /* Offset for slanted cut if using absolute positioning, but we are using flex */
+            margin-left: -20px; /* Pull back to tuck under slant */
+            padding-right: 20px;
+            z-index: 0;
         }}
-        .brand {{
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--secondary);
-            text-decoration: none;
+
+        .university-name {{
+            font-family: "Open Sans", sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-left: 20px;
+            text-transform: uppercase; /* Often uppercase in branding headers */
+            letter-spacing: 0.5px;
+        }}
+
+        .header-nav {{
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 20px;
+            margin-left: auto;
         }}
-        .brand span {{ color: var(--primary); }}
-        .header-subtitle {{ font-size: 0.75rem; color: var(--text-muted); display: none; }}
-        @media (min-width: 600px) {{ .header-subtitle {{ display: block; }} }}
+
+        .header-link {{
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: none; /* Hidden on mobile */
+        }}
+
+        .header-search-icon {{
+            color: white;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }}
+
+        @media (min-width: 900px) {{
+            .header-link {{ display: block; }}
+        }}
+
+        @media (max-width: 600px) {{
+            .university-name {{ display: none; }} /* Hide full name on small screens */
+            .header-top {{ justify-content: space-between; }}
+        }}
+
+        /* --- Local Header (Vaquero Discounts Title) --- */
+        .app-header {{
+            background: white;
+            padding: 24px 16px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }}
+        .app-title {{
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }}
+        .app-subtitle {{
+            margin: 8px 0 0;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }}
 
         /* --- Main Layout --- */
         main {{
             max-width: 1200px;
             margin: 0 auto;
-            padding: 16px;
+            padding: 24px 16px;
         }}
 
         /* --- Search & Filters --- */
         .controls-section {{
-            margin-bottom: 24px;
+            margin-bottom: 32px;
         }}
 
         .search-container {{
             position: relative;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }}
         .search-input {{
             width: 100%;
-            padding: 14px 44px 14px 16px;
+            padding: 16px 48px 16px 20px;
             border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            font-size: 16px; /* Prevents zoom on iOS */
+            border-radius: 50px; /* Pill shape */
+            font-size: 16px;
             background: #fff;
-            transition: border-color var(--transition);
+            transition: all var(--transition);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            font-family: inherit;
         }}
         .search-input:focus {{
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(240, 80, 35, 0.1);
+            box-shadow: 0 4px 12px rgba(240, 80, 35, 0.15);
         }}
         .search-icon {{
             position: absolute;
-            right: 14px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
@@ -202,10 +329,10 @@ html_content = f"""<!DOCTYPE html>
 
         /* Filter Groups */
         .filter-label {{
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.8rem;
+            font-weight: 700;
             color: var(--secondary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             display: block;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -214,19 +341,18 @@ html_content = f"""<!DOCTYPE html>
         /* Chips */
         .chips-container {{
             display: flex;
-            gap: 8px;
+            gap: 10px;
             overflow-x: auto;
-            padding-bottom: 8px; /* Space for scrollbar */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none;  /* IE 10+ */
-            margin-bottom: 16px;
+            padding-bottom: 12px;
+            scrollbar-width: none;
+            margin-bottom: 24px;
         }}
         .chips-container::-webkit-scrollbar {{ display: none; }}
 
         .chip {{
             background: #fff;
             border: 1px solid var(--border-color);
-            border-radius: 999px;
+            border-radius: 6px; /* Square with slight radius */
             padding: 8px 16px;
             font-size: 0.9rem;
             color: var(--text-main);
@@ -234,39 +360,44 @@ html_content = f"""<!DOCTYPE html>
             cursor: pointer;
             transition: all var(--transition);
             user-select: none;
+            font-family: inherit;
+            font-weight: 600;
         }}
-        .chip:hover {{ background: #f0f0f0; }}
+        .chip:hover {{ background: #f9f9f9; border-color: #bbb; }}
         .chip.active {{
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(240, 80, 35, 0.3);
         }}
 
         /* Eligibility Toggles */
         .eligibility-container {{
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 16px;
         }}
         .toggle-btn {{
             background: #fff;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
             transition: all var(--transition);
+            font-family: inherit;
+            color: var(--text-main);
         }}
+        .toggle-btn:hover {{ background: #f9f9f9; }}
         .toggle-btn.active {{
-            background: rgba(240, 80, 35, 0.1);
+            background: #fff3f0; /* Light orange tint */
             border-color: var(--primary);
             color: var(--primary);
-            font-weight: 600;
+            font-weight: 700;
         }}
 
         .clear-filters {{
@@ -277,22 +408,25 @@ html_content = f"""<!DOCTYPE html>
             background: none;
             border: none;
             padding: 0;
-            margin-top: 8px;
+            margin-top: 12px;
+            font-family: inherit;
         }}
         .clear-filters:hover {{ color: var(--primary); }}
 
         /* --- Sections --- */
         .section-title {{
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--secondary);
-            margin: 24px 0 12px 0;
+            color: #333;
+            margin: 40px 0 20px 0;
             display: flex;
-            align-items: center;
+            align-items: baseline;
             justify-content: space-between;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
         }}
         .result-count {{
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 400;
             color: var(--text-muted);
         }}
@@ -301,7 +435,7 @@ html_content = f"""<!DOCTYPE html>
         .grid {{
             display: grid;
             grid-template-columns: 1fr;
-            gap: 16px;
+            gap: 24px;
         }}
         @media (min-width: 600px) {{ .grid {{ grid-template-columns: repeat(2, 1fr); }} }}
         @media (min-width: 900px) {{ .grid {{ grid-template-columns: repeat(3, 1fr); }} }}
@@ -309,45 +443,61 @@ html_content = f"""<!DOCTYPE html>
         .card {{
             background: var(--bg-card);
             border-radius: var(--radius);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             overflow: hidden;
-            border: 1px solid transparent;
+            border: 1px solid #E5E5E5;
             transition: transform var(--transition), box-shadow var(--transition);
             display: flex;
             flex-direction: column;
+            position: relative;
         }}
         .card:hover {{
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
             border-color: rgba(240, 80, 35, 0.3);
         }}
 
+        /* Orange Top Strip on Card */
+        .card::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }}
+        .card:hover::before {{ opacity: 1; }}
+
         .card-header {{
-            padding: 16px;
-            padding-bottom: 8px;
+            padding: 20px;
+            padding-bottom: 12px;
+            flex-grow: 1;
         }}
 
         .card-badge-row {{
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }}
         .category-badge {{
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--secondary);
+            color: #555;
             background: #f0f0f0;
-            padding: 2px 6px;
+            padding: 4px 8px;
             border-radius: 4px;
-            font-weight: 600;
+            font-weight: 700;
         }}
         .discount-badge {{
-            background: rgba(240, 80, 35, 0.1);
+            background: #fff3f0;
             color: var(--primary);
-            font-weight: 700;
-            font-size: 0.8rem;
+            font-weight: 800;
+            font-size: 0.85rem;
             padding: 4px 8px;
             border-radius: 4px;
             text-align: right;
@@ -355,37 +505,45 @@ html_content = f"""<!DOCTYPE html>
         }}
 
         .card-title {{
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin: 0 0 4px 0;
+            margin: 0 0 8px 0;
             color: var(--text-main);
+            line-height: 1.3;
         }}
 
         .card-eligibility {{
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
+            margin-top: auto;
         }}
 
         .card-actions {{
-            padding: 12px 16px;
-            background: #fafafa;
+            padding: 16px 20px;
+            background: #FAFAFA;
             border-top: 1px solid #eee;
-            margin-top: auto;
-            text-align: center;
+            text-align: right;
         }}
         .details-btn {{
-            background: none;
+            background: var(--primary);
             border: none;
-            color: var(--primary);
+            color: white;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 4px;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            transition: background 0.2s;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }}
         .details-btn:hover {{
-            text-decoration: underline;
+            background: #d64015;
+            text-decoration: none;
         }}
 
         /* --- Modal --- */
@@ -395,7 +553,7 @@ html_content = f"""<!DOCTYPE html>
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             display: none;
             justify-content: center;
             align-items: center;
@@ -403,6 +561,7 @@ html_content = f"""<!DOCTYPE html>
             padding: 20px;
             opacity: 0;
             transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
         }}
         .modal-backdrop.active {{
             display: flex;
@@ -412,34 +571,34 @@ html_content = f"""<!DOCTYPE html>
             background: #fff;
             border-radius: var(--radius);
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
-            padding: 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
             transform: translateY(20px);
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }}
         .modal-backdrop.active .modal-content {{
             transform: translateY(0);
         }}
         .modal-header {{
-            padding: 20px;
+            padding: 24px;
             border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
+            align-items: flex-start;
             background: #fff;
             z-index: 10;
         }}
         .modal-title {{
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 800;
             margin: 0;
             color: var(--text-main);
+            padding-right: 20px;
         }}
         .close-modal-btn {{
             background: none;
@@ -447,23 +606,33 @@ html_content = f"""<!DOCTYPE html>
             color: var(--text-muted);
             cursor: pointer;
             padding: 4px;
+            transition: color 0.2s;
         }}
         .close-modal-btn:hover {{ color: var(--primary); }}
 
         .modal-body {{
-            padding: 20px;
+            padding: 24px;
+            overflow-y: auto;
+        }}
+
+        .modal-offer-box {{
+            background: #fff3f0;
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 24px;
         }}
 
         .modal-detail-row {{
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 16px;
+            margin-bottom: 20px;
         }}
         .modal-detail-icon {{
             color: var(--primary);
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             flex-shrink: 0;
             margin-top: 2px;
         }}
@@ -471,90 +640,128 @@ html_content = f"""<!DOCTYPE html>
         .modal-label {{
             display: block;
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: var(--secondary);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 4px;
-            font-weight: 600;
+            margin-bottom: 6px;
+            font-weight: 700;
         }}
         .modal-value {{
             font-size: 1rem;
             color: var(--text-main);
-            line-height: 1.5;
+            line-height: 1.6;
         }}
 
         .modal-footer {{
-            padding: 16px 20px;
+            padding: 20px 24px;
             border-top: 1px solid #eee;
             background: #fafafa;
             display: flex;
             justify-content: flex-end;
         }}
         .pdf-btn {{
-            background: var(--primary);
+            background: var(--text-main);
             color: #fff;
             border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             transition: background 0.2s;
+            font-family: inherit;
         }}
         .pdf-btn:hover {{
-            background: #d64015;
+            background: #000;
         }}
 
 
         /* --- Footer --- */
         footer {{
             text-align: center;
-            padding: 32px 16px;
+            padding: 40px 20px;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             border-top: 1px solid var(--border-color);
-            margin-top: 32px;
+            margin-top: 48px;
             background: #fff;
         }}
-        .footer-link {{ color: var(--secondary); font-weight: 500; }}
+        .footer-link {{ color: var(--primary); font-weight: 600; text-decoration: none; }}
+        .footer-link:hover {{ text-decoration: underline; }}
 
         /* --- Empty State --- */
         .empty-state {{
             text-align: center;
-            padding: 48px;
+            padding: 60px 20px;
             color: var(--text-muted);
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px dashed var(--border-color);
         }}
-        .empty-icon {{ width: 48px; height: 48px; opacity: 0.3; margin-bottom: 16px; }}
+        .empty-icon {{ width: 64px; height: 64px; opacity: 0.2; margin-bottom: 20px; color: var(--secondary); }}
 
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="brand" onclick="window.scrollTo(0,0); return false;">
-            UTRGV <span>Vaquero Discounts</span>
-        </a>
-        <span class="header-subtitle">Exclusive offers for Students, Faculty, Staff & Alumni</span>
-    </header>
+    <!-- Header Structure -->
+    <div class="utrgv-header">
+        <div class="header-top">
+            <div class="header-logo-container">
+                <!-- UTRGV Logo SVG Placeholder -->
+                <svg class="utrgv-logo-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.8,12.5h8.9l-5.6,22.4c-0.6,2.3-2,3.5-4.3,3.5h-3.6c-2.3,0-3.7-1.2-4.3-3.5L1.3,12.5h8.9l2.8,13.7L15.8,12.5z M34.6,19.3h-5.9v19.1h-8.2V19.3h-5.9v-6.8h20V19.3z M52.5,23.3h-4.6v15.1h-8.2V12.5h13.9c2.7,0,4.8,0.5,6.3,1.4 c1.5,0.9,2.6,2.3,3.3,4.1c0.6,1.8,0.7,3.6,0.2,5.5c-0.6,2.1-2.1,3.7-4.4,4.7l6.1,10.2h-9.5L52.5,23.3z M47.9,18.5h3.6 c0.9,0,1.5-0.1,1.9-0.4c0.4-0.3,0.6-0.7,0.6-1.3c0-0.6-0.2-1.1-0.6-1.4c-0.4-0.3-1-0.4-1.9-0.4h-3.6V18.5z M85.2,34.4 c-2,1.7-4.6,2.5-7.9,2.5c-3.7,0-6.6-1.3-8.6-3.8c-2-2.5-3.1-6.1-3.1-10.8c0-4.8,1-8.5,3.1-11c2.1-2.5,4.9-3.8,8.5-3.8 c3,0,5.4,0.7,7.3,2.2l-3,5.6c-1.3-1-2.8-1.5-4.4-1.5c-1.4,0-2.5,0.6-3.3,1.7c-0.8,1.2-1.2,2.9-1.2,5.1s0.4,3.7,1.1,4.8 c0.7,1.1,1.8,1.6,3.1,1.6c0.8,0,1.5-0.1,2.1-0.4v-4h-3.1v-6h11.1v17.4C86.5,34.1,86,34.3,85.2,34.4z M99.1,12.5l-6.8,25.9h-8.4 l-6.8-25.9h8.5l2.4,13l2.6-13H99.1z" />
+                </svg>
+                <div style="color:white; font-weight:800; font-size:24px; line-height:1;">|</div>
+                <!-- 10 Years Placeholder -->
+                 <div style="font-weight:900; font-size:16px; margin-left:10px; line-height:1.1; text-align:center;">
+                    10<br><span style="font-size:10px; display:block;">YEARS</span>
+                </div>
+            </div>
+
+            <div class="header-main-bar">
+                 <!-- Slant Element -->
+                <div style="position:absolute; left:100%; top:0; height:100%; width:50px; background:inherit; clip-path: polygon(0 0, 100% 0, 0 100%);"></div>
+
+                <div class="university-name">The University of Texas Rio Grande Valley</div>
+                <nav class="header-nav">
+                    <a href="#" class="header-link">Directory</a>
+                    <a href="#" class="header-link">Maps</a>
+                    <a href="#" class="header-link">MyUTRGV</a>
+                    <a href="#" class="header-link">News</a>
+                    <a href="#" class="header-link">Give</a>
+                    <svg class="header-search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Header -->
+    <div class="app-header">
+        <h1 class="app-title">Vaquero Discounts</h1>
+        <p class="app-subtitle">Exclusive savings for UTRGV Students, Faculty, Staff & Alumni</p>
+    </div>
 
     <main>
 
         <!-- Search & Filters -->
         <section class="controls-section">
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search businesses, categories, or keywords..." aria-label="Search discounts">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search businesses, categories..." aria-label="Search discounts">
                 <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </div>
 
-            <span class="filter-label">Categories</span>
+            <span class="filter-label">Browse by Category</span>
             <div class="chips-container" id="categoryContainer">
                 <!-- Injected via JS -->
             </div>
 
-            <span class="filter-label">Who can redeem</span>
+            <span class="filter-label">Filter by Eligibility</span>
             <div class="eligibility-container" id="eligibilityContainer">
                 <button class="toggle-btn" data-value="Students">Students</button>
                 <button class="toggle-btn" data-value="Faculty">Faculty</button>
@@ -562,13 +769,13 @@ html_content = f"""<!DOCTYPE html>
                 <button class="toggle-btn" data-value="Alumni">Alumni</button>
             </div>
 
-            <button id="clearFilters" class="clear-filters" style="display: none;">Clear all filters</button>
+            <button id="clearFilters" class="clear-filters" style="display: none;">Reset all filters</button>
         </section>
 
         <!-- Featured -->
         <section id="featuredSection" style="display: none;">
             <div class="section-title">
-                Featured Discounts
+                Featured Offers
             </div>
             <div class="grid" id="featuredGrid">
                 <!-- JS Injected -->
@@ -579,15 +786,16 @@ html_content = f"""<!DOCTYPE html>
         <section>
             <div class="section-title">
                 All Discounts
-                <span class="result-count" id="resultCount">Showing 0 discounts</span>
+                <span class="result-count" id="resultCount">Showing 0 results</span>
             </div>
             <div class="grid" id="resultsGrid">
                 <!-- JS Injected -->
             </div>
             <div id="emptyState" class="empty-state" style="display: none;">
-                <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <p>No results found for your filters.</p>
-                <button class="toggle-btn" style="display:inline-block; margin-top:8px;" onclick="clearAllFilters()">Clear Filters</button>
+                <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <h3>No results found</h3>
+                <p>Try adjusting your search or filters.</p>
+                <button class="toggle-btn" style="display:inline-block; margin-top:16px;" onclick="clearAllFilters()">Clear Filters</button>
             </div>
         </section>
 
@@ -608,7 +816,7 @@ html_content = f"""<!DOCTYPE html>
             <div class="modal-footer">
                 <button class="pdf-btn" onclick="saveCurrentAsPDF()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                    Save as PDF
+                    Download PDF Coupon
                 </button>
             </div>
         </div>
@@ -626,7 +834,7 @@ html_content = f"""<!DOCTYPE html>
         <svg id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
         <svg id="icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
         <svg id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-        <svg id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <svg id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
     </div>
 
     <script>
@@ -634,13 +842,15 @@ html_content = f"""<!DOCTYPE html>
         const DISCOUNTS = {discounts_json};
 
         // --- CONFIG ---
+        // Updated based on actual CSV data
         const CATEGORIES = [
             "Eat & Drink (Food & Dining)",
             "Shop (Retail)",
             "Health & Beauty",
             "Fun & Events (Entertainment)",
             "Auto & Tech",
-            "Services & Travel"
+            "Services & Travel",
+            "Other"
         ];
 
         // --- STATE ---
@@ -673,7 +883,7 @@ html_content = f"""<!DOCTYPE html>
             phone: document.getElementById('icon-phone').innerHTML,
             globe: document.getElementById('icon-globe').innerHTML,
             info: document.getElementById('icon-info').innerHTML,
-            chevron: document.getElementById('icon-chevron-right').innerHTML
+            check: document.getElementById('icon-check').innerHTML
         }};
 
         // --- INIT ---
@@ -827,13 +1037,13 @@ html_content = f"""<!DOCTYPE html>
         }}
 
         function truncateText(text, limit) {{
+            if (!text) return "";
             if (text.length <= limit) return text;
             return text.substring(0, limit) + "...";
         }}
 
         function renderCard(item) {{
             const who = item.whoCanRedeem.join(", ");
-            // Truncate discount amount
             const discountDisplay = truncateText(item.discountAmount, 25);
 
             return `
@@ -867,9 +1077,9 @@ html_content = f"""<!DOCTYPE html>
             const who = item.whoCanRedeem.join(", ");
 
             els.modalBody.innerHTML = `
-                <div style="background:rgba(240, 80, 35, 0.1); padding:12px; border-radius:8px; margin-bottom:20px;">
+                <div class="modal-offer-box">
                     <span class="modal-label" style="color:var(--primary);">Discount Offer</span>
-                    <strong style="font-size:1.2rem; color:var(--primary);">${{item.discountAmount}}</strong>
+                    <strong style="font-size:1.4rem; color:var(--text-main); display:block; margin-top:4px;">${{item.discountAmount}}</strong>
                 </div>
 
                 <div class="modal-detail-row">
@@ -882,7 +1092,7 @@ html_content = f"""<!DOCTYPE html>
 
                 <div class="modal-detail-row">
                     <div class="modal-detail-icon" style="color:var(--secondary);">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                         ${{icons.check}}
                     </div>
                     <div>
                         <span class="modal-label">Eligibility</span>
@@ -892,8 +1102,8 @@ html_content = f"""<!DOCTYPE html>
 
                 ${{item.description ? `
                 <div class="modal-detail-row">
-                     <div class="modal-detail-icon" style="color:var(--secondary);opacity:0;"></div>
-                    <div style="font-style:italic; color:var(--text-muted);">${{item.description}}</div>
+                     <div class="modal-detail-icon" style="opacity:0;"></div>
+                    <div style="font-style:italic; color:var(--text-muted); border-left:3px solid #eee; padding-left:12px;">${{item.description}}</div>
                 </div>
                 ` : ''}}
 
@@ -925,14 +1135,14 @@ html_content = f"""<!DOCTYPE html>
                     <div class="modal-detail-icon">${{icons.globe}}</div>
                     <div>
                         <span class="modal-label">Website</span>
-                        <div class="modal-value"><a href="${{item.website}}" target="_blank" style="color:var(--primary);">Visit Website</a></div>
+                        <div class="modal-value"><a href="${{item.website}}" target="_blank" style="color:var(--primary); font-weight:700;">Visit Website &rarr;</a></div>
                     </div>
                 </div>
                 ` : ''}}
             `;
 
             els.modalBackdrop.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         }};
 
         window.closeModal = function() {{
@@ -956,6 +1166,7 @@ html_content = f"""<!DOCTYPE html>
             // Layout constants
             const margin = 20;
             const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
             const contentWidth = pageWidth - (margin * 2);
 
             // Branding Header
@@ -963,7 +1174,7 @@ html_content = f"""<!DOCTYPE html>
             doc.rect(0, 0, pageWidth, 40, 'F');
 
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(24);
+            doc.setFontSize(22);
             doc.setFont("helvetica", "bold");
             doc.text("UTRGV Vaquero Discounts", margin, 25);
 
@@ -971,39 +1182,42 @@ html_content = f"""<!DOCTYPE html>
 
             // Business Name
             doc.setTextColor(29, 29, 31); // Dark Gray
-            doc.setFontSize(22);
+            doc.setFontSize(20);
             doc.setFont("helvetica", "bold");
             const titleSplit = doc.splitTextToSize(item.businessName, contentWidth);
             doc.text(titleSplit, margin, y);
-            y += (titleSplit.length * 10) + 10;
+            y += (titleSplit.length * 9) + 12;
 
             // Discount Box
             doc.setFillColor(250, 250, 250);
             doc.setDrawColor(220, 220, 220);
-            doc.roundedRect(margin, y, contentWidth, 30, 3, 3, 'FD');
+            doc.roundedRect(margin, y, contentWidth, 35, 2, 2, 'FD');
 
             doc.setTextColor(240, 80, 35);
-            doc.setFontSize(16);
-            doc.text("Discount Offer:", margin + 5, y + 10);
-
             doc.setFontSize(14);
-            doc.setFont("helvetica", "normal");
-            doc.setTextColor(50, 50, 50);
-            const discountSplit = doc.splitTextToSize(item.discountAmount, contentWidth - 10);
-            doc.text(discountSplit, margin + 5, y + 20);
+            doc.setFont("helvetica", "bold");
+            doc.text("OFFER:", margin + 5, y + 10);
 
-            y += 45;
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(0, 0, 0);
+            const discountSplit = doc.splitTextToSize(item.discountAmount, contentWidth - 10);
+            doc.text(discountSplit, margin + 5, y + 22);
+
+            y += 50;
 
             // Details
             function addDetail(label, value) {{
                 if (!value) return;
-                doc.setFontSize(10);
-                doc.setTextColor(134, 134, 139); // Muted
+                doc.setFontSize(9);
+                doc.setTextColor(100, 100, 100);
+                doc.setFont("helvetica", "bold");
                 doc.text(label.toUpperCase(), margin, y);
                 y += 5;
 
-                doc.setFontSize(12);
+                doc.setFontSize(11);
                 doc.setTextColor(0, 0, 0);
+                doc.setFont("helvetica", "normal");
                 const valSplit = doc.splitTextToSize(value, contentWidth);
                 doc.text(valSplit, margin, y);
                 y += (valSplit.length * 6) + 10;
@@ -1014,22 +1228,72 @@ html_content = f"""<!DOCTYPE html>
             addDetail("Location", item.address);
             if (item.phone) addDetail("Phone", item.phone);
 
-            // Disclaimer Message
-            y = Math.max(y, 250); // Push to bottom if space allows, or just margin
-            if (y > 250) y += 10;
-            else y = 250;
+            // --- New Internal Fields (Only in PDF) ---
+            y += 10; // Extra Spacer
+
+            doc.setDrawColor(200, 200, 200);
+            doc.setLineWidth(0.1);
+            doc.line(margin, y, pageWidth - margin, y);
+            y += 10;
+
+            // Admin Section Title
+            doc.setFontSize(9);
+            doc.setTextColor(150, 150, 150);
+            doc.text("PARTNER INFORMATION", margin, y);
+            y += 6;
+
+            // Using a simple grid for these
+            const leftCol = margin;
+            const rightCol = margin + (contentWidth / 2);
+
+            // Row 1
+            if (item.joinDate) {{
+                doc.setFontSize(8); doc.setTextColor(150,150,150); doc.text("VDP JOIN DATE", leftCol, y);
+                doc.setFontSize(9); doc.setTextColor(50,50,50); doc.text(item.joinDate, leftCol, y+5);
+            }}
+
+            if (item.authorizedBy) {{
+                doc.setFontSize(8); doc.setTextColor(150,150,150); doc.text("AUTHORIZED BY", rightCol, y);
+                doc.setFontSize(9); doc.setTextColor(50,50,50); doc.text(item.authorizedBy, rightCol, y+5);
+                y += 12;
+            }} else {{
+                y += 12;
+            }}
+
+            // Row 2
+            if (item.contactTitle) {{
+                doc.setFontSize(8); doc.setTextColor(150,150,150); doc.text("CONTACT TITLE/ROLE", leftCol, y);
+                doc.setFontSize(9); doc.setTextColor(50,50,50); doc.text(item.contactTitle, leftCol, y+5);
+                y += 15;
+            }} else {{
+                y += 15;
+            }}
+
+
+            // --- Footer / About VDP ---
+            // Push to bottom
+            let footerY = pageHeight - 40;
+            if (y > footerY) footerY = y + 10;
 
             doc.setDrawColor(240, 80, 35);
             doc.setLineWidth(0.5);
-            doc.line(margin, y - 10, pageWidth - margin, y - 10);
+            doc.line(margin, footerY, pageWidth - margin, footerY);
 
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            const msg = "Presented by UTRGV Human Resources. This discount is for UTRGV Students, Faculty, Staff, and Alumni. Please present your UTRGV ID to redeem.";
-            const msgSplit = doc.splitTextToSize(msg, contentWidth);
-            doc.text(msgSplit, margin, y);
+            footerY += 10;
 
-            doc.save(`${{item.businessName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}}_discount.pdf`);
+            doc.setFontSize(9);
+            doc.setTextColor(80, 80, 80);
+
+            const aboutText = "The Vaquero Discount Program (VDP) offers exclusive discounts to UTRGV students, faculty, staff, and alumni.";
+            const aboutSplit = doc.splitTextToSize(aboutText, contentWidth);
+            doc.text(aboutSplit, margin, footerY);
+
+            footerY += (aboutSplit.length * 5) + 5;
+
+            doc.setTextColor(240, 80, 35);
+            doc.textWithLink("utrgv.edu/vdp", margin, footerY, {{ url: "https://www.utrgv.edu/vdp" }});
+
+            doc.save(`${{item.businessName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}}_coupon.pdf`);
         }};
 
         window.clearAllFilters = clearAllFilters;

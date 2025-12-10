@@ -6,64 +6,6 @@ import io
 # Configuration
 GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQregHbek9Lten27U-Hs92yB81IoGO3PyJGOOekrIkTeXpI9XRV-YMaw-DNTZk-MCQTEhLcqkB3kMF5/pub?output=csv"
 OUTPUT_CSV = "categorized_discounts.csv"
-EXISTING_DATA_FILE = "listings.json"
-
-# Category Mapping Logic (from transform_data.py)
-OLD_CAT_TO_NEW = {
-    "Dining": "Eat & Drink (Food & Dining)",
-    "Fashion": "Shop (Retail)",
-    "Health & Beauty": "Health & Beauty",
-    "Entertainment": "Fun & Events (Entertainment)",
-    "Automotive": "Auto & Tech",
-    "Electronics": "Auto & Tech",
-    "Services": "Services & Travel",
-    "Travel": "Services & Travel",
-    "Other": "Shop (Retail)"
-}
-
-# Keyword based categorization for new items
-KEYWORD_RULES = [
-    (["food", "pizza", "burger", "taco", "grill", "cafe", "coffee", "bakery", "sushi", "dining", "restaurant", "nutrition", "donuts", "wings"], "Eat & Drink (Food & Dining)"),
-    (["boutique", "apparel", "clothing", "wear", "outfitters", "shop", "store", "gift", "jewelry", "boots", "shoes", "retail"], "Shop (Retail)"),
-    (["beauty", "hair", "salon", "waxing", "barber", "spa", "wellness", "fitness", "gym", "health", "workout", "nutrition"], "Health & Beauty"),
-    (["auto", "car", "oil", "tire", "mechanic", "wash", "parts", "phone", "computer", "repair", "tech", "electronics"], "Auto & Tech"),
-    (["entertainment", "fun", "game", "bowling", "movie", "photo", "event", "party", "rental"], "Fun & Events (Entertainment)"),
-    (["hotel", "travel", "taxi", "transport", "service", "consult", "print", "copy", "construction", "insurance", "cleaning", "pest"], "Services & Travel")
-]
-
-def load_existing_mappings():
-    """Loads existing business-to-category mappings from listings.json"""
-    mapping = {}
-    try:
-        with open(EXISTING_DATA_FILE, 'r') as f:
-            data = json.load(f)
-            for item in data:
-                name = item.get("vendor")
-                cat = item.get("category")
-                if name and cat:
-                    # Normalize name for better matching
-                    mapping[name.lower().strip()] = OLD_CAT_TO_NEW.get(cat, "Shop (Retail)")
-    except FileNotFoundError:
-        print("Warning: listings.json not found. Proceeding without existing mappings.")
-    return mapping
-
-def determine_category(name, description, existing_map):
-    """Determines category based on existing map or keywords."""
-    name_clean = name.lower().strip()
-
-    # 1. Check existing map
-    if name_clean in existing_map:
-        return existing_map[name_clean]
-
-    # 2. Check keywords in name and description
-    text = (name + " " + description).lower()
-    for keywords, category in KEYWORD_RULES:
-        for word in keywords:
-            if word in text:
-                return category
-
-    # 3. Default
-    return "Shop (Retail)"
 
 def parse_who_can_redeem(text):
     """Parses the 'Who Can Redeem' text into a list."""
@@ -79,9 +21,6 @@ def parse_who_can_redeem(text):
     return roles
 
 def main():
-    print("Loading existing mappings...")
-    existing_map = load_existing_mappings()
-
     print(f"Downloading data from {GOOGLE_SHEET_URL}...")
     try:
         response = urllib.request.urlopen(GOOGLE_SHEET_URL)
@@ -98,8 +37,7 @@ def main():
     processed_rows = []
     row_id = 100 # Start IDs from 100
 
-    # Expected Google Sheet Headers (based on observation):
-    # Name of the Business, Discount Amount, Who Can Redeem, How to Redeem, About this Business, Address, Phone, Email address, Website/Social Media
+    # Headers: 'Name of the Business', 'Discount Amount', 'Who Can Redeem', 'How to Redeem', 'About this Business', 'Address', 'Phone', 'Email address', 'Website/Social Media', 'Category', 'VDP Join Date', 'Authorized by', 'Contact Title/Role'
 
     for row in reader:
         # Extract fields safely
@@ -115,8 +53,14 @@ def main():
         email = row.get("Email address", "")
         website = row.get("Website/Social Media", "")
 
-        # Determine Category
-        category = determine_category(name, about, existing_map)
+        # New Fields
+        category = row.get("Category", "").strip()
+        if not category:
+            category = "Other"
+
+        join_date = row.get("VDP Join Date", "")
+        authorized_by = row.get("Authorized by", "")
+        contact_title = row.get("Contact Title/Role", "")
 
         # Process specific fields
         who_list = parse_who_can_redeem(who_raw)
@@ -129,10 +73,7 @@ def main():
             if len(parts) >= 2:
                 proximity = "Near " + parts[-2].strip() # City
 
-        # Feature flag (simple logic: random or specific names, for now just false or keep some logic)
-        # Let's feature if discount is > 20% or keywords?
-        # For stability, let's just feature a few hardcoded ones if they exist, or just leave it false.
-        # The original code featured specific IDs. I'll feature if "Free" or "20%" or "25%" in discount.
+        # Feature flag logic
         is_featured = False
         if "free" in discount.lower() or "25%" in discount or "20%" in discount:
              is_featured = True
@@ -152,7 +93,12 @@ def main():
             "website": website,
             "campusProximity": proximity,
             "isFeatured": str(is_featured),
-            "tags": category.split(" ")[0].lower() # First word of category as tag
+            "tags": category.split(" ")[0].lower(), # First word of category as tag
+
+            # New Internal Fields
+            "joinDate": join_date,
+            "authorizedBy": authorized_by,
+            "contactTitle": contact_title
         }
 
         processed_rows.append(new_row)
@@ -163,7 +109,8 @@ def main():
     fieldnames = [
         "id", "businessName", "category", "discountAmount", "whoCanRedeem",
         "howToRedeem", "description", "address", "phone", "email",
-        "website", "campusProximity", "isFeatured", "tags"
+        "website", "campusProximity", "isFeatured", "tags",
+        "joinDate", "authorizedBy", "contactTitle"
     ]
 
     with open(OUTPUT_CSV, 'w', newline='', encoding='utf-8') as csvfile:
